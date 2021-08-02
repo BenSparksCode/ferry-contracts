@@ -1,2 +1,2 @@
-# ferry-contracts
- Smart contracts for Ferry 🚢
+# ⛵ Ferry Contracts ⛵
+Smart contracts for Ferry.
