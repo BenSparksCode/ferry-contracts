@@ -13,7 +13,7 @@ task("accounts", "Prints the list of accounts", async () => {
 });
 
 module.exports = {
-  solidity: "0.8.0",
+  solidity: "0.8.6",
   loggingEnabled: true,
   contractSizer: {
     alphaSort: true,
