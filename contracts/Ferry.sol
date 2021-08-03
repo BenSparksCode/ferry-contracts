@@ -62,6 +62,10 @@ contract Ferry is Ownable {
         annualFee = _annualFee;
     }
 
+    function setLendingPool(address _lendingPool) public onlyOwner {
+        aaveLendingPool = ILendingPool(_lendingPool);
+    }
+
     //------------------------------//
     //      VIEW FUNCTIONS          //
     //------------------------------//
