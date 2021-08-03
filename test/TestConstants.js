@@ -28,6 +28,10 @@ const CONSTANTS = {
         }
     },
     CONTRACTS: {
+        AAVE:{
+            LENDING_POOL: "0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9",     // Lending Pool on Matic
+            amDAI: "0x27F8D03b3a2196956ED754baDc28D73be8830A6e",            // aDAI on Matic
+        },
         SUSHI: {
             // https://etherscan.io/address/0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F#code
             ROUTER: "0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F", //on mainnet

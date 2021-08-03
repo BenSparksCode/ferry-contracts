@@ -4,10 +4,11 @@ pragma solidity 0.8.6;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./interfaces/ILendingPool.sol";
 
 // CORE:
 // Owned by a Gnosis Safe wallet
-// Receives payments for pro tier (in DAI)
+// Receives payments for pro tier (in DAI) ✅
 // Function to deposit DAI in Aave
 // Function to withdraw DAI from Aave
 // Function to pay Filecoin for storage via Polygon bridge (DAI->wFIL needed?)
@@ -17,13 +18,16 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 // Payments in DAI/USDC/MATIC with SushiSwap convert to DAI
 
 contract Ferry is Ownable {
+    ILendingPool aaveLendingPool;
+
     uint256 public annualFee; // annual pro fee
     uint256 public constant YEAR = 365 days;
 
     // address => membership expiry timestamp
     mapping(address => uint256) private memberships;
 
-    constructor(uint256 _annualFee) {
+    constructor(uint256 _annualFee, address _lendingPool) {
+        aaveLendingPool = ILendingPool(_lendingPool);
         annualFee = _annualFee;
     }
 
