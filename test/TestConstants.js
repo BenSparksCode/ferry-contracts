@@ -1,6 +1,8 @@
 const { BigNumber } = require("@ethersproject/bignumber");
 const { ethers } = require("hardhat");
 
+// FOR TESTING - MAINNET ADDRESSES
+
 const CONSTANTS = {
     SHIP: {
         decimals: 18,
@@ -19,18 +21,11 @@ const CONSTANTS = {
        
     },
     PROTOCOL_REVERTS: {
-        OWNABLE:{
-            notOwner: "Ownable: caller is not the owner"
-        },
-        ERC20:{
-            transferTooMuch: "ERC20: transfer amount exceeds balance",
-            notEnoughApproved: "ERC20: transfer amount exceeds allowance",
-        }
     },
     CONTRACTS: {
         AAVE:{
-            LENDING_POOL: "0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9",     // Lending Pool on Matic
-            amDAI: "0x27F8D03b3a2196956ED754baDc28D73be8830A6e",            // aDAI on Matic
+            LENDING_POOL: "0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9",     // Lending Pool
+            aDAI: "0x028171bCA77440897B824Ca71D1c56caC55b68A3",             // aDAI
         },
         SUSHI: {
             // https://etherscan.io/address/0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F#code
@@ -44,7 +39,7 @@ const CONSTANTS = {
         },
         TOKENS: {
             USDC: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", //on mainnet
-            DAI: "",
+            DAI: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
             WMATIC: "",
             WETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" //on mainnet
         }
