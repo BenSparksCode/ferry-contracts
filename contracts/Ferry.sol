@@ -8,10 +8,11 @@ import "./interfaces/ILendingPool.sol";
 
 // CORE:
 // Owned by a Gnosis Safe wallet
+// Function to pay Filecoin for storage via Polygon bridge (DAI->wFIL needed?)
+// Add limited unique NFT minting on paying fee
 // Receives payments for pro tier (in DAI) ✅
 // Function to deposit DAI in Aave ✅
 // Function to withdraw DAI from Aave ✅
-// Function to pay Filecoin for storage via Polygon bridge (DAI->wFIL needed?)
 // View functions for user's subscription details ✅
 
 // LATER:
