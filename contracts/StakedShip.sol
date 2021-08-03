@@ -1,52 +1,48 @@
 // SPDX-License-Identifier: MIT
 // Forked from Sushiswap's SushiBar staking contract
 
-pragma solidity 0.6.12;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
 
-// SushiBar is the coolest bar in town. You come in with some Sushi, and leave with more! The longer you stay, the more Sushi you get.
-//
-// This contract handles swapping to and from xSushi, SushiSwap's staking token.
-contract SushiBar is ERC20("SushiBar", "xSUSHI"){
-    using SafeMath for uint256;
-    IERC20 public sushi;
+// This contract handles swapping to and from xSHIP, Ferry's staking token.
+contract StakedShip is ERC20("StakedShip", "xSHIP") {
+    IERC20 public ship;
 
-    // Define the Sushi token contract
-    constructor(IERC20 _sushi) public {
-        sushi = _sushi;
+    // Define the SHIP token contract
+    constructor(IERC20 _ship) {
+        ship = _ship;
     }
 
-    // Enter the bar. Pay some SUSHIs. Earn some shares.
-    // Locks Sushi and mints xSushi
+    // Enter the bar. Pay some SHIPs. Earn some shares.
+    // Locks SHIP and mints xSHIP
     function enter(uint256 _amount) public {
-        // Gets the amount of Sushi locked in the contract
-        uint256 totalSushi = sushi.balanceOf(address(this));
-        // Gets the amount of xSushi in existence
+        // Gets the amount of SHIP locked in the contract
+        uint256 totalShip = ship.balanceOf(address(this));
+        // Gets the amount of xSHIP in existence
         uint256 totalShares = totalSupply();
-        // If no xSushi exists, mint it 1:1 to the amount put in
-        if (totalShares == 0 || totalSushi == 0) {
+        // If no xSHIP exists, mint it 1:1 to the amount put in
+        if (totalShares == 0 || totalShip == 0) {
             _mint(msg.sender, _amount);
-        } 
-        // Calculate and mint the amount of xSushi the Sushi is worth. The ratio will change overtime, as xSushi is burned/minted and Sushi deposited + gained from fees / withdrawn.
+        }
+        // Calculate and mint the amount of xSHIP the SHIP is worth. The ratio will change overtime, as xSHIP is burned/minted and SHIP deposited + gained from fees / withdrawn.
         else {
-            uint256 what = _amount.mul(totalShares).div(totalSushi);
+            uint256 what = (_amount * totalShares) / totalShip;
             _mint(msg.sender, what);
         }
-        // Lock the Sushi in the contract
-        sushi.transferFrom(msg.sender, address(this), _amount);
+        // Lock the SHIP in the contract
+        ship.transferFrom(msg.sender, address(this), _amount);
     }
 
-    // Leave the bar. Claim back your SUSHIs.
-    // Unlocks the staked + gained Sushi and burns xSushi
+    // Leave the bar. Claim back your SHIP.
+    // Unlocks the staked + gained SHIP and burns xSHIP
     function leave(uint256 _share) public {
-        // Gets the amount of xSushi in existence
+        // Gets the amount of xSHIP in existence
         uint256 totalShares = totalSupply();
-        // Calculates the amount of Sushi the xSushi is worth
-        uint256 what = _share.mul(sushi.balanceOf(address(this))).div(totalShares);
+        // Calculates the amount of SHIP the xSHIP is worth
+        uint256 what = (_share * ship.balanceOf(address(this))) / totalShares;
         _burn(msg.sender, _share);
-        sushi.transfer(msg.sender, what);
+        ship.transfer(msg.sender, what);
     }
 }
