@@ -2,6 +2,16 @@ const { BigNumber } = require("@ethersproject/bignumber");
 const { ethers } = require("hardhat");
 
 const CONSTANTS = {
+    SHIP: {
+        decimals: 18,
+        total: 100000000,               //  100 million
+        hackathonAirdrop: 5000000,      //  5 million
+        mainnetAirdrop: 5000000,        //  5 million
+        strategicPartners: 16000000,    //  16 million
+        stakingRewards: 20000000,       //  20 million
+        teamVesting: 24000000,          //  24 million
+        daoTreasury: 30000000           //  30 million
+    },
     TEST_PARAMS:{
         
     },
