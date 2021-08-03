@@ -20,6 +20,7 @@ import "./interfaces/ILendingPool.sol";
 contract Ferry is Ownable {
     ILendingPool aaveLendingPool;
     IERC20 dai;
+    address daiAddress;
 
     uint256 public annualFee; // annual pro fee
     uint256 public constant YEAR = 365 days;
@@ -27,12 +28,17 @@ contract Ferry is Ownable {
     // address => membership expiry timestamp
     mapping(address => uint256) private memberships;
 
-    constructor(uint256 _annualFee, address _dai, address _lendingPool) {
+    constructor(
+        uint256 _annualFee,
+        address _dai,
+        address _lendingPool
+    ) {
         annualFee = _annualFee;
 
         dai = IERC20(_dai);
+        daiAddress = _dai;
         aaveLendingPool = ILendingPool(_lendingPool);
-        
+
         // Infinite approve Aave for DAI deposits
         dai.approve(_lendingPool, type(uint256).max);
     }
@@ -55,8 +61,8 @@ contract Ferry is Ownable {
 
     // Deposits DAI into Aave to earn interest
     function depositInAave(uint256 _amount) public onlyOwner {
-        // TODO
-
+        require(_amount > 0, "FERRY: DEPOSIT MORE THAN ZERO");
+        aaveLendingPool.deposit(daiAddress, _amount, address(this), 0);
     }
 
     // Withdraws DAI from Aave
@@ -70,6 +76,7 @@ contract Ferry is Ownable {
     }
 
     function setLendingPool(address _lendingPool) public onlyOwner {
+        require(_lendingPool != address(0), "FERRY: CAN'T USE ZERO ADDRESS");
         aaveLendingPool = ILendingPool(_lendingPool);
         // Infinite approve Aave for DAI deposits
         dai.approve(_lendingPool, type(uint256).max);
