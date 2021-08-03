@@ -21,7 +21,7 @@ contract Ferry is Ownable {
     uint256 public constant YEAR = 365 days;
 
     // address => membership expiry timestamp
-    mapping(address => uint256) public memberships;
+    mapping(address => uint256) private memberships;
 
     constructor(uint256 _annualFee) {
         annualFee = _annualFee;
@@ -39,9 +39,9 @@ contract Ferry is Ownable {
         memberships[_account] += proTimeAdded;
     }
 
-    //-----------------//
-    // OWNER FUNCTIONS //
-    //-----------------//
+    //------------------------------//
+    //      OWNER FUNCTIONS         //
+    //------------------------------//
 
     // Deposits DAI into Aave to earn interest
     function depositInAave(uint256 _amount) public onlyOwner {
@@ -56,5 +56,22 @@ contract Ferry is Ownable {
     // Set annual fee to [_fee] DAI
     function setAnnualFee(uint256 _annualFee) public onlyOwner {
         annualFee = _annualFee;
+    }
+
+    //------------------------------//
+    //      VIEW FUNCTIONS          //
+    //------------------------------//
+
+    // Returns seconds of membership left for account
+    function getMembershipTimeLeft(address _account)
+        public
+        view
+        returns (uint256)
+    {
+        if (memberships[_account] > block.timestamp) {
+            return memberships[_account] - block.timestamp;
+        } else {
+            return 0;
+        }
     }
 }
