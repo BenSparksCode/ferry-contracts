@@ -1,0 +1,16 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "Ferry",
+  "sourceName": "contracts/Ferry.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    }
+  ],
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212206bbc4a5a34857c4680f8214c37f41fa8669f9e0fc78be4b0d38178288ce0a4b864736f6c63430008060033",
+  "deployedBytecode": "0x6080604052600080fdfea26469706673582212206bbc4a5a34857c4680f8214c37f41fa8669f9e0fc78be4b0d38178288ce0a4b864736f6c63430008060033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
