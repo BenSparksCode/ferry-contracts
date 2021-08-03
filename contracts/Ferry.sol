@@ -9,10 +9,10 @@ import "./interfaces/ILendingPool.sol";
 // CORE:
 // Owned by a Gnosis Safe wallet
 // Receives payments for pro tier (in DAI) ✅
-// Function to deposit DAI in Aave
-// Function to withdraw DAI from Aave
+// Function to deposit DAI in Aave ✅
+// Function to withdraw DAI from Aave ✅
 // Function to pay Filecoin for storage via Polygon bridge (DAI->wFIL needed?)
-// View functions for user's subscription details
+// View functions for user's subscription details ✅
 
 // LATER:
 // Payments in DAI/USDC/MATIC with SushiSwap convert to DAI
@@ -67,7 +67,8 @@ contract Ferry is Ownable {
 
     // Withdraws DAI from Aave
     function withdrawFromAave(uint256 _amount) public onlyOwner {
-        // TODO
+        require(_amount > 0, "FERRY: WITHDRAW MORE THAN ZERO");
+        aaveLendingPool.withdraw(daiAddress, _amount, address(this));
     }
 
     // Set annual fee to [_fee] DAI
