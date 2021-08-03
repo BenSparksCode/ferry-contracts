@@ -12,5 +12,6 @@ contract ShipToken is ERC20, ERC20Permit {
         uint256 totalSupply_
     ) ERC20(name_, symbol_) ERC20Permit(name_) {
         _mint(msg.sender, totalSupply_);
+        emit Transfer(address(this), msg.sender, totalSupply_);
     }
 }
