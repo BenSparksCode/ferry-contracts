@@ -31,3 +31,9 @@ Smart contracts for Ferry.
 - [ ] Chainlink
 - [ ] Zora
 - [ ] Superfluid
+
+## Resources
+
+- [Superfluid Docs](https://docs.superfluid.finance/superfluid/protocol-tutorials/super-tokens)
+- [Chainlink Random Numbers](https://docs.chain.link/docs/get-a-random-number/)
+- [Zora Minting NFTs](https://docs.zora.co/zoraos/dev/zdk/zora-protocol#mint)
