@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 // This contract handles swapping to and from xSHIP, Ferry's staking token.
-contract StakedShip is ERC20("StakedShip", "xSHIP") {
+contract ShipHarbor is ERC20("StakedShip", "xSHIP") {
     IERC20 public ship;
 
     // Define the SHIP token contract

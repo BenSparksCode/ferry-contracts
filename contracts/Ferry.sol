@@ -44,14 +44,16 @@ contract Ferry is Ownable {
         dai.approve(_lendingPool, type(uint256).max);
     }
 
-    // _account --> user receiving subscription
-    // _amount  --> amount of DAI paid
+    // _account = user receiving subscription
+    // _amount  = amount of DAI paid
     function paySubscription(address _account, uint256 _amount) public {
         // TODO NFT minting
         require(_account != address(0), "FERRY: ZERO ADDRESS CAN'T SUBSCRIBE");
         require(_amount > 0, "FERRY: PAY SOME DAI TO SUBSCRIBE");
 
         uint256 proTimeAdded = (YEAR * _amount) / annualFee;
+
+        // TODO fix lagging timestamp when membership expires
 
         memberships[_account] += proTimeAdded;
     }
@@ -88,6 +90,7 @@ contract Ferry is Ownable {
     //      VIEW FUNCTIONS          //
     //------------------------------//
 
+    // TODO return the actual timestamp of expiry
     // Returns seconds of membership left for account
     function getMembershipTimeLeft(address _account)
         public
