@@ -53,9 +53,13 @@ contract Ferry is Ownable {
 
         uint256 proTimeAdded = (YEAR * _amount) / annualFee;
 
-        // TODO fix lagging timestamp when membership expires
-
-        memberships[_account] += proTimeAdded;
+        if (memberships[_account] < block.timestamp) {
+            // Membership expired - start new one from now
+            memberships[_account] = block.timestamp + proTimeAdded;
+        } else {
+            // Membership only expires in the future
+            memberships[_account] += proTimeAdded;
+        }
     }
 
     //------------------------------//
