@@ -4,6 +4,9 @@ pragma solidity 0.8.6;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
+// TODO will have to store custom interface for Zora
+// import "@zoralabs/core/dist/contracts/interfaces/IMedia.sol";
+
 // Integrates with Chainlink's VRF to generate truly unique NFTs with random numbers
 // Integrates with Zora to mint the NFTs
 
