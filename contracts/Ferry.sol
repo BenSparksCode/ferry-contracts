@@ -5,6 +5,7 @@ pragma solidity 0.8.6;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/ILendingPool.sol";
+import "./interfaces/IFerryNFTMinter.sol";
 
 // CORE:
 // Owned by a Gnosis Safe wallet
@@ -19,6 +20,7 @@ import "./interfaces/ILendingPool.sol";
 // Payments in DAI/USDC/MATIC with SushiSwap convert to DAI
 
 contract Ferry is Ownable {
+    IFerryNFTMinter NFTMinter;
     ILendingPool aaveLendingPool;
     IERC20 dai;
     address daiAddress;
@@ -48,6 +50,7 @@ contract Ferry is Ownable {
     // _amount  = amount of DAI paid
     function paySubscription(address _account, uint256 _amount) public {
         // TODO NFT minting
+        // TODO limit to how much membership time they can pre-buy?
         require(_account != address(0), "FERRY: ZERO ADDRESS CAN'T SUBSCRIBE");
         require(_amount > 0, "FERRY: PAY SOME DAI TO SUBSCRIBE");
 
