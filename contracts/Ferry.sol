@@ -27,20 +27,27 @@ contract Ferry is Ownable {
 
     uint256 public annualFee; // annual pro fee
     uint256 public constant YEAR = 365 days;
+    uint256 public nftThresholdPayment;
 
     // address => membership expiry timestamp
     mapping(address => uint256) private memberships;
+    // For membership NFTs -> 1 per account
+    mapping(address => bool) private hasNFT;
 
     constructor(
         uint256 _annualFee,
+        uint256 _nftThreshold,
         address _dai,
-        address _lendingPool
+        address _lendingPool,
+        address _nftMinter
     ) {
         annualFee = _annualFee;
+        nftThresholdPayment = _nftThreshold;
 
         dai = IERC20(_dai);
         daiAddress = _dai;
         aaveLendingPool = ILendingPool(_lendingPool);
+        NFTMinter = IFerryNFTMinter(_nftMinter);
 
         // Infinite approve Aave for DAI deposits
         dai.approve(_lendingPool, type(uint256).max);
@@ -49,7 +56,13 @@ contract Ferry is Ownable {
     // _account = user receiving subscription
     // _amount  = amount of DAI paid
     function paySubscription(address _account, uint256 _amount) public {
+
         // TODO NFT minting
+        if(_amount >= nftThresholdPayment && !hasNFT[_account]){
+            NFTMinter.mint(_account, _amount); // TODO
+            hasNFT[_account] = true;
+        }
+
         // TODO limit to how much membership time they can pre-buy?
         require(_account != address(0), "FERRY: ZERO ADDRESS CAN'T SUBSCRIBE");
         require(_amount > 0, "FERRY: PAY SOME DAI TO SUBSCRIBE");
@@ -84,6 +97,11 @@ contract Ferry is Ownable {
     // Set annual fee to [_fee] DAI
     function setAnnualFee(uint256 _annualFee) public onlyOwner {
         annualFee = _annualFee;
+    }
+
+    // Set NFT threshold payment to [_threshold] DAI
+    function setNftThresholdPayment(uint256 _threshold) public onlyOwner {
+        nftThresholdPayment = _threshold;
     }
 
     function setLendingPool(address _lendingPool) public onlyOwner {
