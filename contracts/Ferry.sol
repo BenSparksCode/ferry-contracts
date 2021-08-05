@@ -94,17 +94,12 @@ contract Ferry is Ownable {
     //      VIEW FUNCTIONS          //
     //------------------------------//
 
-    // TODO return the actual timestamp of expiry
-    // Returns seconds of membership left for account
-    function getMembershipTimeLeft(address _account)
+    // Returns the UNIX time that membership for user will expire
+    function getMembershipExpiryTime(address _account)
         public
         view
         returns (uint256)
     {
-        if (memberships[_account] > block.timestamp) {
-            return memberships[_account] - block.timestamp;
-        } else {
-            return 0;
-        }
+        return memberships[_account];
     }
 }
