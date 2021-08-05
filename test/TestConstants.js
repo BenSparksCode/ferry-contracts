@@ -4,6 +4,14 @@ const { ethers } = require("hardhat");
 // FOR TESTING - MAINNET ADDRESSES
 
 const CONSTANTS = {
+    MUMBAI: {
+        ZoraMedia: "0xabEFBc9fD2F806065b4f3C237d4b59D9A97Bcac7",
+        ZoraMarket: "0xE5BFAB544ecA83849c53464F85B7164375Bdaac1"
+    },
+    POLYGON: {
+        ZoraMedia: "0x6953190AAfD8f8995e8f47e8F014d0dB83E92300",
+        ZoraMarket: "0xE20bd7dC76e09AEBC2A9A732AB6AEE616c5a17Eb"
+    },
     SHIP: {
         decimals: 18,
         total: 100000000,               //  100 million
