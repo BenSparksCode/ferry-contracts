@@ -21,7 +21,7 @@ pragma experimental ABIEncoderV2;
  * It has not been modified other than to use a newer solidity in the pragma to match the rest of the contract suite of this project
  */
 
-import {SafeMath} from "@openzeppelin/contracts/math/SafeMath.sol";
+// import {SafeMath} from "@openzeppelin/contracts/math/SafeMath.sol";
 import {Math} from "./Math.sol";
 
 /**
@@ -30,7 +30,7 @@ import {Math} from "./Math.sol";
  * Library that defines a fixed-point number with 18 decimal places.
  */
 library Decimal {
-    using SafeMath for uint256;
+    // using SafeMath for uint256;
 
     // ============ Constants ============
 
@@ -50,7 +50,7 @@ library Decimal {
     }
 
     function onePlus(D256 memory d) internal pure returns (D256 memory) {
-        return D256({value: d.value.add(BASE)});
+        return D256({value: d.value + (BASE)});
     }
 
     function mul(uint256 target, D256 memory d)

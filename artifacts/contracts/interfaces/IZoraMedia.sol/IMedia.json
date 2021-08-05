@@ -1,0 +1,89 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "IMedia",
+  "sourceName": "contracts/interfaces/IZoraMedia.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "tokenURI",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "metadataURI",
+              "type": "string"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "contentHash",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "metadataHash",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct IMedia.MediaData",
+          "name": "data",
+          "type": "tuple"
+        },
+        {
+          "components": [
+            {
+              "components": [
+                {
+                  "internalType": "uint256",
+                  "name": "value",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct Decimal.D256",
+              "name": "prevOwner",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint256",
+                  "name": "value",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct Decimal.D256",
+              "name": "creator",
+              "type": "tuple"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "uint256",
+                  "name": "value",
+                  "type": "uint256"
+                }
+              ],
+              "internalType": "struct Decimal.D256",
+              "name": "owner",
+              "type": "tuple"
+            }
+          ],
+          "internalType": "struct IMarket.BidShares",
+          "name": "bidShares",
+          "type": "tuple"
+        }
+      ],
+      "name": "mint",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
