@@ -37,3 +37,6 @@ Smart contracts for Ferry.
 - [Superfluid Docs](https://docs.superfluid.finance/superfluid/protocol-tutorials/super-tokens)
 - [Chainlink Random Numbers](https://docs.chain.link/docs/get-a-random-number/)
 - [Zora Minting NFTs](https://docs.zora.co/zoraos/dev/zdk/zora-protocol#mint)
+- [Textile Polygon-Filecoin Bridge](https://github.com/textileio/storage-js#ethpolygon)
+- [Login with Ethereum](https://github.com/austintgriffith/scaffold-eth/tree/serverless-auth)
+- [Magic Login](https://magic.link/)
