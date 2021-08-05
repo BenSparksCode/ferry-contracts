@@ -3,19 +3,26 @@
 pragma solidity 0.8.6;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-
-// TODO will have to store custom interface for Zora
-// import "@zoralabs/core/dist/contracts/interfaces/IMedia.sol";
+import "./interfaces/IZoraMedia.sol";
 
 // Integrates with Chainlink's VRF to generate truly unique NFTs with random numbers
 // Integrates with Zora to mint the NFTs
 
 contract FerryNFTMinter {
     address public minter;
+    IMedia ZoraMedia;
 
-    constructor() {}
+    constructor(address _zoraMediaAddress) {
+        ZoraMedia = IMedia(_zoraMediaAddress);
+    }
 
-    function mint() external onlyMinter{}
+    function mint() external onlyMinter{
+        // TODO
+        // build SVG NFT
+        // populate basic data and 0 for bidshares
+
+        // ZoraMedia.mint(data, bidShares);
+    }
 
     modifier onlyMinter {
         require(minter == msg.sender);
