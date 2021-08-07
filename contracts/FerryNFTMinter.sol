@@ -6,6 +6,8 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 import "./interfaces/IZoraMedia.sol";
+import "./interfaces/IZoraMarket.sol";
+import "./utils/Decimal.sol";
 
 // Integrates with Chainlink's VRF to generate truly unique NFTs with random numbers
 // Integrates with Zora to mint the NFTs
@@ -15,6 +17,7 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
     IMedia ZoraMedia;
 
     mapping(bytes32 => address) nftRequestAddresses;
+    IMarket.BidShares private bidShares;
 
     // Chainlink vars
     bytes32 internal keyHash;
@@ -27,17 +30,18 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
         address _vrfCoordinator,
         address _link,
         bytes32 _keyHash
-    )
-        VRFConsumerBase(
-            _vrfCoordinator,
-            _link
-        )
-    {
+    ) VRFConsumerBase(_vrfCoordinator, _link) {
         ferry = _ferry;
         ZoraMedia = IMedia(_zoraMediaAddress);
         // Chainlink setup
         keyHash = _keyHash;
         fee = 100000000000000; // 0.0001 LINK on Polygon
+
+        bidShares = IMarket.BidShares({
+            prevOwner: Decimal.D256(0),
+            creator: Decimal.D256(0),
+            owner: Decimal.D256(100)
+        });
     }
 
     // ==================== //
@@ -89,7 +93,18 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
             // COMMON (78%)
         }
 
-        // ZoraMedia.mint(data, bidShares);
+        // TODO finish this - just for testing
+        string memory tURI = "https://example.com";
+        string memory mURI = "https://metadata.com";
+
+        IMedia.MediaData memory data = IMedia.MediaData({
+            tokenURI: tURI,
+            metadataURI: mURI,
+            contentHash: sha256("Unique SVG string here"),
+            metadataHash: sha256("Unique SVG metadata here")
+        });
+
+        ZoraMedia.mint(data, bidShares);
     }
 
     function withdrawLINK() external onlyOwner {
