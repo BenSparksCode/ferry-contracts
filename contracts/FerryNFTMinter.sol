@@ -37,6 +37,12 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
         fee = _fee;
     }
 
+    // ==================== //
+    //        ZORA          //
+    // ==================== //
+
+    // TODO minted NFTs act as transferrable key to Superfluid stream of gov tokens ???
+
     function mint() external onlyMinter {
         // TODO
         // build SVG NFT

@@ -44,9 +44,9 @@ contract FerryTreasury is Ownable {
         dai.approve(_lendingPool, type(uint256).max);
     }
 
-    //-------------------------------//
-    //              AAVE             //
-    //-------------------------------//
+    // ==================== //
+    //         AAVE         //
+    // ==================== //
 
     // Deposits DAI into Aave to earn interest
     function depositInAave(uint256 _amount) public onlyOwner {
@@ -67,9 +67,9 @@ contract FerryTreasury is Ownable {
         dai.approve(_lendingPool, type(uint256).max);
     }
 
-    //----------------------------//
-    //         SUSHISWAP          //
-    //----------------------------//
+    // ==================== //
+    //      SUSHISWAP       //
+    // ==================== //
 
     // TODO SushiSwap code here
 
