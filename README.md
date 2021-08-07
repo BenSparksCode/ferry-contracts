@@ -56,3 +56,8 @@ Decentralized User Auth and Login:
 
 - [Login with Ethereum](https://github.com/austintgriffith/scaffold-eth/tree/serverless-auth)
 - [Magic Login](https://magic.link/)
+
+## Faucets
+
+- [Mumbai Testnet MATIC](https://faucet.matic.network/)
+- [Mumbai Testnet LINK](https://linkfaucet.protofire.io/mumbai)
