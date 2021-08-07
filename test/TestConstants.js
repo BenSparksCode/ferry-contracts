@@ -1,14 +1,22 @@
 const { BigNumber } = require("@ethersproject/bignumber");
 const { ethers } = require("hardhat");
 
-// FOR TESTING - MAINNET ADDRESSES
-
 const CONSTANTS = {
     MUMBAI: {
+        DAI: "0x001B3B4d0F3714Ca98ba10F6042DaEbF0B1B7b6F",
+        aDAI: "0x639cB7b21ee2161DF9c882483C9D55c90c20Ca3e",
+        LINK: "0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
+        ChainlinkVRFCoordinator: "0x8C7382F9D8f56b33781fE506E897a4F1e2d17255",
+        AaveLendingPool: "0x9198F13B08E299d85E096929fA9781A1E3d5d827",
         ZoraMedia: "0xabEFBc9fD2F806065b4f3C237d4b59D9A97Bcac7",
         ZoraMarket: "0xE5BFAB544ecA83849c53464F85B7164375Bdaac1"
     },
     POLYGON: {
+        DAI: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
+        aDAI: "0x27F8D03b3a2196956ED754baDc28D73be8830A6e",
+        LINK: "0xb0897686c545045afc77cf20ec7a532e3120e0f1",
+        ChainlinkVRFCoordinator: "0x3d2341ADb2D31f1c5530cDC622016af293177AE0",
+        AaveLendingPool: "0x8dFf5E27EA6b7AC08EbFdf9eB090F32ee9a30fcf",
         ZoraMedia: "0x6953190AAfD8f8995e8f47e8F014d0dB83E92300",
         ZoraMarket: "0xE20bd7dC76e09AEBC2A9A732AB6AEE616c5a17Eb"
     },
@@ -22,38 +30,24 @@ const CONSTANTS = {
         teamVesting: 24000000,          //  24 million
         daoTreasury: 30000000           //  30 million
     },
-    TEST_PARAMS:{
-        
-    },
-    PROTOCOL_PARAMS: {
-       
-    },
-    PROTOCOL_REVERTS: {
-    },
-    CONTRACTS: {
-        AAVE:{
-            LENDING_POOL: "0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9",     // Lending Pool
-            aDAI: "0x028171bCA77440897B824Ca71D1c56caC55b68A3",             // aDAI
+    TEST_PARAMS:{},
+    PROTOCOL_PARAMS: {},
+    PROTOCOL_REVERTS: {},
+    WALLETS: {},
+    DEPLOY: {
+        SHIP:{
+            name: "SHIP",
+            symbol: "SHIP",
+            totalSupply: 1 //TODO 100 million
         },
-        SUSHI: {
-            // https://etherscan.io/address/0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F#code
-            ROUTER: "0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F", //on mainnet
-            // https://etherscan.io/address/0xC0AEe478e3658e2610c5F7A4A2E1777cE9e4f2Ac#code
-            FACTORY: "0xC0AEe478e3658e2610c5F7A4A2E1777cE9e4f2Ac", //on mainnet
-            // https://etherscan.io/address/0x397FF1542f962076d0BFE58eA045FfA2d347ACa0
-            USDC_WETH_POOL: "0x397FF1542f962076d0BFE58eA045FfA2d347ACa0", //on mainnet
-            // https://analytics-polygon.sushi.com/pairs/0x21ef14b5580a852477ef31e7ea9373485bf50377
-            WETH_WFIL_POOL: "0x21ef14b5580a852477ef31e7ea9373485bf50377"
+        FERRY: {
+            annualFee: 1, //TODO no idea, need storage and time costs from Filecoin
+            nftThreshold: 1, //TODO $1? Will cost less than $0.01 in LINK for random num
+            maxMembershipPeriod: 10, //TODO 2 years?
         },
-        TOKENS: {
-            USDC: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48", //on mainnet
-            DAI: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-            WMATIC: "",
-            WETH: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" //on mainnet
+        NFT_MINTER: {
+
         }
-    },
-    WALLETS: {
-        FIL_WHALE: "",
     }
 }
 
