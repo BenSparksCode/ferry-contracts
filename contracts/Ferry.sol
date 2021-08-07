@@ -19,15 +19,17 @@ import "./interfaces/IFerryNFTMinter.sol";
 contract Ferry is Ownable {
     // TODO add events
     IFerryNFTMinter NFTMinter;
-    bool public nftsActive;
     ILendingPool AaveLendingPool;
     IERC20 DAI;
     address public daiAddress;
 
     uint256 public annualFee; // annual pro fee
-    uint256 public maxMembershipPeriod = type(uint256).max; // max membership you can prepay for
-    uint256 public constant YEAR = 365 days;
+    uint256 public maxMembershipPeriod; // max membership you can prepay for
+    bool public nftsActive;
+    uint256 public nftCount;
+    uint256 public maxMintedNFTs;
     uint256 public nftThresholdPayment;
+    uint256 public constant YEAR = 365 days;
 
     // address => membership expiry timestamp
     mapping(address => uint256) private memberships;
@@ -36,13 +38,17 @@ contract Ferry is Ownable {
 
     constructor(
         uint256 _annualFee,
+        uint256 _maxMintedNFTs,
         uint256 _nftThreshold,
+        uint256 _maxMembershipPeriod,
         address _dai,
         address _lendingPool,
         address _nftMinter
     ) {
         annualFee = _annualFee;
+        maxMembershipPeriod = _maxMembershipPeriod;
         nftThresholdPayment = _nftThreshold;
+        maxMintedNFTs = _maxMintedNFTs;
 
         DAI = IERC20(_dai);
         daiAddress = _dai;
@@ -92,9 +98,16 @@ contract Ferry is Ownable {
         // - NFT minting is active
         // - sender paid at least mint threshold
         // - account hasn't been minted NFT before
-        if (nftsActive && _amount >= nftThresholdPayment && !hasNFT[_account]) {
+        // - NFTs minted doesn't exceed limit
+        if (
+            nftsActive &&
+            _amount >= nftThresholdPayment &&
+            !hasNFT[_account] &&
+            nftCount < maxMintedNFTs
+        ) {
             NFTMinter.mint(_account, _amount); // TODO
             hasNFT[_account] = true;
+            nftCount++;
         }
     }
 
@@ -127,6 +140,11 @@ contract Ferry is Ownable {
     // Set NFT threshold payment to [_threshold] DAI
     function setNftThresholdPayment(uint256 _threshold) public onlyOwner {
         nftThresholdPayment = _threshold;
+    }
+
+    // Set max number of NFTs that can be minted
+    function setMaxMintedNFTs(uint256 _max) public onlyOwner {
+        maxMintedNFTs = _max;
     }
 
     function setLendingPool(address _lendingPool) public onlyOwner {

@@ -38,12 +38,13 @@ const CONSTANTS = {
         SHIP:{
             name: "SHIP",
             symbol: "SHIP",
-            totalSupply: 1 //TODO 100 million
+            totalSupply: ethers.utils.parseUnits("100000000", "ether") //100 million with 18 decimals
         },
         FERRY: {
-            annualFee: 1, //TODO no idea, need storage and time costs from Filecoin
-            nftThreshold: 1, //TODO $1? Will cost less than $0.01 in LINK for random num
-            maxMembershipPeriod: 10, //TODO 2 years?
+            annualFee: ethers.utils.parseUnits("24", "ether"), //$24 per year to start
+            maxMembershipPeriod: 2*365*86400, // 2 years = 2 * 365 days * 86400 seconds per day
+            nftThreshold: ethers.utils.parseUnits("1", "ether"), //$1 Will cost less than $0.01 in LINK for random num
+            nftMaxMinted: 50000,
         },
         NFT_MINTER: {
 
