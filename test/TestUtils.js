@@ -5,11 +5,11 @@ const { constants } = require("./TestConstants")
 const ERC20_ABI = require("../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json")
 const SushiRouter_ABI = require("../artifacts/contracts/interfaces/IUniswapV2Router02.sol/IUniswapV2Router02.json")
 
-const SushiRouter = new ethers.Contract(
-    constants.CONTRACTS.SUSHI.ROUTER,
-    SushiRouter_ABI.abi,
-    ethers.provider
-)
+// const SushiRouter = new ethers.Contract(
+//     constants.CONTRACTS.SUSHI.ROUTER,
+//     SushiRouter_ABI.abi,
+//     ethers.provider
+// )
 
 // Gets the time of the last block.
 const currentTime = async () => {
