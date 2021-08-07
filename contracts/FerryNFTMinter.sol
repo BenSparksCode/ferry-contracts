@@ -9,6 +9,8 @@ import "./interfaces/IZoraMedia.sol";
 import "./interfaces/IZoraMarket.sol";
 import "./utils/Decimal.sol";
 
+import "hardhat/console.sol";
+
 // Integrates with Chainlink's VRF to generate truly unique NFTs with random numbers
 // Integrates with Zora to mint the NFTs
 
@@ -80,8 +82,10 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
         override
     {
         // TODO call Ferry function to complete NFT mint accounting
-        randomResult = randomness;
+        // randomResult = randomness;
         uint256 rarityScore = (randomness % 1000) + 1;
+
+        console.log(randomness);
 
         if (rarityScore == 1000) {
             // LEGENDARY (0.1%)
@@ -97,6 +101,7 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
         string memory tURI = "https://example.com";
         string memory mURI = "https://metadata.com";
 
+        // TODO can try keccak if sha doesn't work
         IMedia.MediaData memory data = IMedia.MediaData({
             tokenURI: tURI,
             metadataURI: mURI,

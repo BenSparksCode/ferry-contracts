@@ -7,7 +7,6 @@ Smart contracts for Ferry.
 - [x] SHIP Token
 - [x] SHIP Staking
 - [ ] Ferry Core
-- [ ] Ferry Treasury
 - [ ] Ferry NFT Minter
 
 ## Tests
@@ -29,7 +28,7 @@ Smart contracts for Ferry.
 - [ ] Polygon
 - [ ] Ceramic
 - [ ] Textile
-- [ ] Chainlink
+- [x] Chainlink
 - [ ] Zora
 - [ ] Superfluid
 
