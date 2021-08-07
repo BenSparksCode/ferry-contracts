@@ -16,23 +16,22 @@ import "./interfaces/IFerryNFTMinter.sol";
 // Function to withdraw DAI from Aave ✅
 // View functions for user's subscription details ✅
 
-// LATER:
-// Payments in DAI/USDC/MATIC with SushiSwap convert to DAI
-
 contract Ferry is Ownable {
     IFerryNFTMinter NFTMinter;
-    ILendingPool aaveLendingPool;
-    IERC20 dai;
-    address daiAddress;
+    bool public nftsActive;
+    ILendingPool AaveLendingPool;
+    IERC20 DAI;
+    address public daiAddress;
 
     uint256 public annualFee; // annual pro fee
+    uint256 public maxMembershipPeriod; // max membership you can prepay for
     uint256 public constant YEAR = 365 days;
     uint256 public nftThresholdPayment;
 
     // address => membership expiry timestamp
     mapping(address => uint256) private memberships;
     // For membership NFTs -> 1 per account
-    mapping(address => bool) private hasNFT;
+    mapping(address => bool) private hasNFT; //TODO map to hash/id of NFT for future lookup
 
     constructor(
         uint256 _annualFee,
@@ -44,21 +43,21 @@ contract Ferry is Ownable {
         annualFee = _annualFee;
         nftThresholdPayment = _nftThreshold;
 
-        dai = IERC20(_dai);
+        DAI = IERC20(_dai);
         daiAddress = _dai;
-        aaveLendingPool = ILendingPool(_lendingPool);
+        AaveLendingPool = ILendingPool(_lendingPool);
         NFTMinter = IFerryNFTMinter(_nftMinter);
 
         // Infinite approve Aave for DAI deposits
-        dai.approve(_lendingPool, type(uint256).max);
+        DAI.approve(_lendingPool, type(uint256).max);
     }
 
     // _account = user receiving subscription
     // _amount  = amount of DAI paid
     function paySubscription(address _account, uint256 _amount) public {
 
-        // TODO NFT minting
-        if(_amount >= nftThresholdPayment && !hasNFT[_account]){
+        // Only mint NFT is active and paid enough and address hasn't already
+        if(_amount >= nftThresholdPayment && !hasNFT[_account] && nftsActive){
             NFTMinter.mint(_account, _amount); // TODO
             hasNFT[_account] = true;
         }
@@ -85,13 +84,13 @@ contract Ferry is Ownable {
     // Deposits DAI into Aave to earn interest
     function depositInAave(uint256 _amount) public onlyOwner {
         require(_amount > 0, "FERRY: DEPOSIT MORE THAN ZERO");
-        aaveLendingPool.deposit(daiAddress, _amount, address(this), 0);
+        AaveLendingPool.deposit(daiAddress, _amount, address(this), 0);
     }
 
     // Withdraws DAI from Aave
     function withdrawFromAave(uint256 _amount) public onlyOwner {
         require(_amount > 0, "FERRY: WITHDRAW MORE THAN ZERO");
-        aaveLendingPool.withdraw(daiAddress, _amount, address(this));
+        AaveLendingPool.withdraw(daiAddress, _amount, address(this));
     }
 
     // Set annual fee to [_fee] DAI
@@ -106,9 +105,15 @@ contract Ferry is Ownable {
 
     function setLendingPool(address _lendingPool) public onlyOwner {
         require(_lendingPool != address(0), "FERRY: CAN'T USE ZERO ADDRESS");
-        aaveLendingPool = ILendingPool(_lendingPool);
+        AaveLendingPool = ILendingPool(_lendingPool);
         // Infinite approve Aave for DAI deposits
-        dai.approve(_lendingPool, type(uint256).max);
+        DAI.approve(_lendingPool, type(uint256).max);
+    }
+
+    function setNFTMinter(address _minter, bool _nftsActive) public onlyOwner {
+        require(_minter != address(0), "FERRY: CAN'T USE ZERO ADDRESS");
+        NFTMinter = IFerryNFTMinter(_minter);
+        nftsActive = _nftsActive;
     }
 
     //------------------------------//
@@ -122,5 +127,15 @@ contract Ferry is Ownable {
         returns (uint256)
     {
         return memberships[_account];
+    }
+
+    // Returns the bool / id / hash of an address's NFT
+    // TODO update when NFT hash/id stored instead of bool
+    function getAccountNFT(address _account)
+        public
+        view
+        returns (bool)
+    {
+        return hasNFT[_account];
     }
 }
