@@ -116,48 +116,55 @@ contract Ferry is Ownable {
     //------------------------------//
 
     // Deposits DAI into Aave to earn interest
-    function depositInAave(uint256 _amount) public onlyOwner {
+    function depositInAave(uint256 _amount) external onlyOwner {
         require(_amount > 0, "FERRY: DEPOSIT MORE THAN ZERO");
         AaveLendingPool.deposit(daiAddress, _amount, address(this), 0);
     }
 
     // Withdraws DAI from Aave
-    function withdrawFromAave(uint256 _amount) public onlyOwner {
+    function withdrawFromAave(uint256 _amount) external onlyOwner {
         require(_amount > 0, "FERRY: WITHDRAW MORE THAN ZERO");
         AaveLendingPool.withdraw(daiAddress, _amount, address(this));
     }
 
     // Set annual fee to [_fee] DAI
-    function setAnnualFee(uint256 _annualFee) public onlyOwner {
+    function setAnnualFee(uint256 _annualFee) external onlyOwner {
         annualFee = _annualFee;
     }
 
     // Set length of max membership period that can be prepaid for
-    function setMaxMembershipPeriod(uint256 _maxPeriod) public onlyOwner {
+    function setMaxMembershipPeriod(uint256 _maxPeriod) external onlyOwner {
         maxMembershipPeriod = _maxPeriod;
     }
 
     // Set NFT threshold payment to [_threshold] DAI
-    function setNftThresholdPayment(uint256 _threshold) public onlyOwner {
+    function setNftThresholdPayment(uint256 _threshold) external onlyOwner {
         nftThresholdPayment = _threshold;
     }
 
     // Set max number of NFTs that can be minted
-    function setMaxMintedNFTs(uint256 _max) public onlyOwner {
+    function setMaxMintedNFTs(uint256 _max) external onlyOwner {
         maxMintedNFTs = _max;
     }
 
-    function setLendingPool(address _lendingPool) public onlyOwner {
+    function setLendingPool(address _lendingPool) external onlyOwner {
         require(_lendingPool != address(0), "FERRY: CAN'T USE ZERO ADDRESS");
         AaveLendingPool = ILendingPool(_lendingPool);
         // Infinite approve Aave for DAI deposits
         DAI.approve(_lendingPool, type(uint256).max);
     }
 
-    function setNFTMinter(address _minter, bool _nftsActive) public onlyOwner {
+    function setNFTMinter(address _minter, bool _nftsActive) external onlyOwner {
         require(_minter != address(0), "FERRY: CAN'T USE ZERO ADDRESS");
         NFTMinter = IFerryNFTMinter(_minter);
         nftsActive = _nftsActive;
+    }
+
+    function withdrawDAI() external onlyOwner {
+        require(
+            DAI.transfer(msg.sender, DAI.balanceOf(address(this))),
+            "FERRY: DAI WITHDRAW FAILED"
+        );
     }
 
     //------------------------------//
