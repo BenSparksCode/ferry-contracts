@@ -17,6 +17,7 @@ import "./interfaces/IFerryNFTMinter.sol";
 // View functions for user's subscription details ✅
 
 contract Ferry is Ownable {
+    // TODO add events
     IFerryNFTMinter NFTMinter;
     bool public nftsActive;
     ILendingPool AaveLendingPool;
@@ -24,7 +25,7 @@ contract Ferry is Ownable {
     address public daiAddress;
 
     uint256 public annualFee; // annual pro fee
-    uint256 public maxMembershipPeriod; // max membership you can prepay for
+    uint256 public maxMembershipPeriod = type(uint256).max; // max membership you can prepay for
     uint256 public constant YEAR = 365 days;
     uint256 public nftThresholdPayment;
 
@@ -55,25 +56,45 @@ contract Ferry is Ownable {
     // _account = user receiving subscription
     // _amount  = amount of DAI paid
     function paySubscription(address _account, uint256 _amount) public {
-
-        // Only mint NFT is active and paid enough and address hasn't already
-        if(_amount >= nftThresholdPayment && !hasNFT[_account] && nftsActive){
-            NFTMinter.mint(_account, _amount); // TODO
-            hasNFT[_account] = true;
-        }
-
-        // TODO limit to how much membership time they can pre-buy?
         require(_account != address(0), "FERRY: ZERO ADDRESS CAN'T SUBSCRIBE");
         require(_amount > 0, "FERRY: PAY SOME DAI TO SUBSCRIBE");
+
+        // Transfer payment
+        require(
+            DAI.transferFrom(msg.sender, address(this), _amount),
+            "FERRY: PAYMENT FAILED"
+        );
 
         uint256 proTimeAdded = (YEAR * _amount) / annualFee;
 
         if (memberships[_account] < block.timestamp) {
             // Membership expired - start new one from now
+            // Only charge and allocate up to max membership period
+            if (proTimeAdded > maxMembershipPeriod) {
+                proTimeAdded = maxMembershipPeriod;
+                _amount = (maxMembershipPeriod / YEAR) * annualFee;
+            }
             memberships[_account] = block.timestamp + proTimeAdded;
         } else {
             // Membership only expires in the future
+            // Only charge and allocate up to max membership period
+            uint256 availPeriod = block.timestamp +
+                maxMembershipPeriod -
+                memberships[_account];
+            if (proTimeAdded > availPeriod) {
+                proTimeAdded = availPeriod;
+                _amount = (availPeriod / YEAR) * annualFee;
+            }
             memberships[_account] += proTimeAdded;
+        }
+
+        // Only mint NFT if:
+        // - NFT minting is active
+        // - sender paid at least mint threshold
+        // - account hasn't been minted NFT before
+        if (nftsActive && _amount >= nftThresholdPayment && !hasNFT[_account]) {
+            NFTMinter.mint(_account, _amount); // TODO
+            hasNFT[_account] = true;
         }
     }
 
@@ -96,6 +117,11 @@ contract Ferry is Ownable {
     // Set annual fee to [_fee] DAI
     function setAnnualFee(uint256 _annualFee) public onlyOwner {
         annualFee = _annualFee;
+    }
+
+    // Set length of max membership period that can be prepaid for
+    function setMaxMembershipPeriod(uint256 _maxPeriod) public onlyOwner {
+        maxMembershipPeriod = _maxPeriod;
     }
 
     // Set NFT threshold payment to [_threshold] DAI
@@ -131,11 +157,7 @@ contract Ferry is Ownable {
 
     // Returns the bool / id / hash of an address's NFT
     // TODO update when NFT hash/id stored instead of bool
-    function getAccountNFT(address _account)
-        public
-        view
-        returns (bool)
-    {
+    function getAccountNFT(address _account) public view returns (bool) {
         return hasNFT[_account];
     }
 }
