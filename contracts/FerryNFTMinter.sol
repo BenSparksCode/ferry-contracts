@@ -78,10 +78,10 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
         randomResult = randomness;
     }
 
-    function withdrawLink() external onlyOwner {
+    function withdrawLINK() external onlyOwner {
         require(
             LINK.transfer(msg.sender, LINK.balanceOf(address(this))),
-            "Unable to transfer"
+            "FERRY_NFT: LINK WITHDRAW FAILED"
         );
     }
 }
