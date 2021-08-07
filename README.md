@@ -46,6 +46,7 @@ Unique NFT Minting:
 - [Uniswap V3 SVG NFTs](https://github.com/Uniswap/uniswap-v3-periphery/blob/main/contracts/libraries/NFTSVG.sol)
 - [Chainlink Random Numbers](https://docs.chain.link/docs/get-a-random-number/)
 - [Chainlink Starter Kit](https://github.com/smartcontractkit/hardhat-starter-kit)
+- [VRF Best Practices](https://docs.chain.link/docs/chainlink-vrf-best-practices/)
 - [Zora Minting NFTs](https://docs.zora.co/zoraos/dev/zdk/zora-protocol#mint)
 
 Cross-chain Filecoin Payments

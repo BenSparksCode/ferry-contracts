@@ -14,6 +14,8 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
     address public ferry;
     IMedia ZoraMedia;
 
+    mapping(bytes32 => address) nftRequestAddresses;
+
     // Chainlink vars
     bytes32 internal keyHash;
     uint256 internal fee;
@@ -24,19 +26,18 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
         address _zoraMediaAddress,
         address _vrfCoordinator,
         address _link,
-        bytes32 _keyHash,
-        uint256 _fee
+        bytes32 _keyHash
     )
         VRFConsumerBase(
-            _vrfCoordinator, // VRF Coordinator
-            _link // LINK Token
+            _vrfCoordinator,
+            _link
         )
     {
         ferry = _ferry;
         ZoraMedia = IMedia(_zoraMediaAddress);
         // Chainlink setup
         keyHash = _keyHash;
-        fee = _fee;
+        fee = 100000000000000; // 0.0001 LINK on Polygon
     }
 
     // ==================== //
@@ -46,10 +47,9 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
     // TODO minted NFTs act as transferrable key to Superfluid stream of gov tokens ???
 
     function mint() external onlyFerry {
-        // TODO
-        // build SVG NFT
-        // populate basic data and 0 for bidshares
-        // ZoraMedia.mint(data, bidShares);
+        // Request random num from Chainlink
+        _getRandomNumber();
+        // Callback in 10 blocks will generate and mint NFT
     }
 
     modifier onlyFerry() {
@@ -65,7 +65,7 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
 
     // TODO shouldn't be public, haters will drain the linkies
     // Request random number
-    function getRandomNumber() public returns (bytes32 requestId) {
+    function _getRandomNumber() private returns (bytes32 requestId) {
         requestId = requestRandomness(keyHash, fee);
         emit RequestedRandomness(requestId);
     }
@@ -75,7 +75,21 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
         internal
         override
     {
+        // TODO call Ferry function to complete NFT mint accounting
         randomResult = randomness;
+        uint256 rarityScore = (randomness % 1000) + 1;
+
+        if (rarityScore == 1000) {
+            // LEGENDARY (0.1%)
+        } else if (rarityScore > 980) {
+            // EPIC (1.9%)
+        } else if (rarityScore > 780) {
+            // RARE (20%)
+        } else {
+            // COMMON (78%)
+        }
+
+        // ZoraMedia.mint(data, bidShares);
     }
 
     function withdrawLINK() external onlyOwner {

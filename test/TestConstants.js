@@ -47,6 +47,7 @@ const CONSTANTS = {
             nftMaxMinted: 50000,
         },
         NFT_MINTER: {
+            vrfFee: 100000000000000,
 
         }
     }
