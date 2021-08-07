@@ -11,7 +11,7 @@ import "./interfaces/IZoraMedia.sol";
 // Integrates with Zora to mint the NFTs
 
 contract FerryNFTMinter is VRFConsumerBase, Ownable {
-    address public minter;
+    address public ferry;
     IMedia ZoraMedia;
 
     // Chainlink vars
@@ -20,6 +20,7 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
     uint256 public randomResult;
 
     constructor(
+        address _ferry,
         address _zoraMediaAddress,
         address _vrfCoordinator,
         address _link,
@@ -31,6 +32,7 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
             _link // LINK Token
         )
     {
+        ferry = _ferry;
         ZoraMedia = IMedia(_zoraMediaAddress);
         // Chainlink setup
         keyHash = _keyHash;
@@ -43,15 +45,15 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
 
     // TODO minted NFTs act as transferrable key to Superfluid stream of gov tokens ???
 
-    function mint() external onlyMinter {
+    function mint() external onlyFerry {
         // TODO
         // build SVG NFT
         // populate basic data and 0 for bidshares
         // ZoraMedia.mint(data, bidShares);
     }
 
-    modifier onlyMinter() {
-        require(minter == msg.sender);
+    modifier onlyFerry() {
+        require(ferry == msg.sender);
         _;
     }
 
