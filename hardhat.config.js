@@ -36,8 +36,8 @@ module.exports = {
       }
     },
     mumbai: {
-      url: "https://rpc-mumbai.maticvigil.com",
-      // url: "https://polygon-mumbai.g.alchemy.com/v2/" + process.env.ALCHEMY_API,
+      // url: "https://rpc-mumbai.maticvigil.com",
+      url: "https://polygon-mumbai.g.alchemy.com/v2/" + process.env.ALCHEMY_API,
       accounts: [`${process.env.MUMBAI_DEPLOYER_PRIV_KEY}`],
       // gas: 2000000, //2 mil
       // gasPrice: 5000000000, //5 gwei

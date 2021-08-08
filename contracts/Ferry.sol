@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/ILendingPool.sol";
 import "./interfaces/IFerryNFTMinter.sol";
+import "./interfaces/IFerry.sol";
 
 // CORE:
 // Owned by a Gnosis Safe wallet
@@ -16,9 +17,10 @@ import "./interfaces/IFerryNFTMinter.sol";
 // Function to withdraw DAI from Aave ✅
 // View functions for user's subscription details ✅
 
-contract Ferry is Ownable {
+contract Ferry is IFerry, Ownable {
     // TODO add events
     IFerryNFTMinter NFTMinter;
+    address public minterAddress;
     ILendingPool AaveLendingPool;
     IERC20 DAI;
     address public daiAddress;
@@ -34,7 +36,8 @@ contract Ferry is Ownable {
     // address => membership expiry timestamp
     mapping(address => uint256) private memberships;
     // For membership NFTs -> 1 per account
-    mapping(address => bool) private hasNFT; //TODO map to hash/id of NFT for future lookup
+    mapping(address => uint256) private nftOwned;
+    mapping(address => bool) private nftRequested;
 
     constructor(
         uint256 _annualFee,
@@ -55,6 +58,7 @@ contract Ferry is Ownable {
         daiAddress = _dai;
         AaveLendingPool = ILendingPool(_lendingPool);
         NFTMinter = IFerryNFTMinter(_nftMinter);
+        minterAddress = _nftMinter;
 
         // Infinite approve Aave for DAI deposits
         DAI.approve(_lendingPool, type(uint256).max);
@@ -103,13 +107,27 @@ contract Ferry is Ownable {
         if (
             nftsActive &&
             _amount >= nftThresholdPayment &&
-            !hasNFT[_account] &&
+            !nftRequested[_account] &&
             nftCount < maxMintedNFTs
         ) {
-            NFTMinter.mint(_account, _amount); // TODO
-            hasNFT[_account] = true;
-            nftCount++;
+            nftRequested[_account] = true;
+            NFTMinter.createNFT(_account);
         }
+    }
+
+    // Called from NFTMinter when Chainlink responds with random num
+    function nftCreatedCallback(address _account, uint256 _randomNum)
+        external
+        override
+        onlyMinter
+    {
+        nftOwned[_account] = _randomNum;
+        nftCount++;
+    }
+
+    modifier onlyMinter() {
+        require(minterAddress == msg.sender);
+        _;
     }
 
     //------------------------------//
@@ -155,9 +173,13 @@ contract Ferry is Ownable {
         DAI.approve(_lendingPool, type(uint256).max);
     }
 
-    function setNFTMinter(address _minter, bool _nftsActive) external onlyOwner {
+    function setNFTMinter(address _minter, bool _nftsActive)
+        external
+        onlyOwner
+    {
         require(_minter != address(0), "FERRY: CAN'T USE ZERO ADDRESS");
         NFTMinter = IFerryNFTMinter(_minter);
+        minterAddress = _minter;
         nftsActive = _nftsActive;
     }
 
@@ -181,9 +203,8 @@ contract Ferry is Ownable {
         return memberships[_account];
     }
 
-    // Returns the bool / id / hash of an address's NFT
-    // TODO update when NFT hash/id stored instead of bool
-    function getAccountNFT(address _account) public view returns (bool) {
-        return hasNFT[_account];
+    // Returns the random num of an address's NFT
+    function getAccountNFT(address _account) public view returns (uint256) {
+        return nftOwned[_account];
     }
 }

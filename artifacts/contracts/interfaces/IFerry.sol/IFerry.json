@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
-  "contractName": "IFerryNFTMinter",
-  "sourceName": "contracts/interfaces/IFerryNFTMinter.sol",
+  "contractName": "IFerry",
+  "sourceName": "contracts/interfaces/IFerry.sol",
   "abi": [
     {
       "inputs": [
@@ -9,22 +9,14 @@
           "internalType": "address",
           "name": "_account",
           "type": "address"
-        }
-      ],
-      "name": "createNFT",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
+        },
         {
-          "internalType": "address",
-          "name": "_account",
-          "type": "address"
+          "internalType": "uint256",
+          "name": "_randomNum",
+          "type": "uint256"
         }
       ],
-      "name": "mintNFT",
+      "name": "nftCreatedCallback",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

@@ -7,18 +7,19 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 import "./interfaces/IZoraMedia.sol";
 import "./interfaces/IZoraMarket.sol";
+import "./interfaces/IFerryNFTMinter.sol";
+import "./interfaces/IFerry.sol";
 import "./utils/Decimal.sol";
-
-import "hardhat/console.sol";
 
 // Integrates with Chainlink's VRF to generate truly unique NFTs with random numbers
 // Integrates with Zora to mint the NFTs
 
-contract FerryNFTMinter is VRFConsumerBase, Ownable {
+contract FerryNFTMinter is VRFConsumerBase, Ownable, IFerryNFTMinter {
     address public ferry;
     IMedia ZoraMedia;
 
-    mapping(bytes32 => address) nftRequestAddresses;
+    mapping(bytes32 => address) nftRequests;
+    mapping(address => uint256) randomNums;
     IMarket.BidShares private bidShares;
 
     // Chainlink vars
@@ -52,39 +53,17 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
 
     // TODO minted NFTs act as transferrable key to Superfluid stream of gov tokens ???
 
-    function mint(address _account, uint256 _amount) external onlyFerry {
-        // Request random num from Chainlink
-        _getRandomNumber();
+    function createNFT(address _account) external override onlyFerry {
+        // Request random num from Chainlink for account
+        _getRandomNumber(_account);
         // Callback in 10 blocks will generate and mint NFT
     }
 
-    modifier onlyFerry() {
-        require(ferry == msg.sender);
-        _;
-    }
-
-    // ==================== //
-    //      CHAINLINK       //
-    // ==================== //
-
-    event RequestedRandomness(bytes32 requestId);
-
-    // Request random number
-    function _getRandomNumber() private returns (bytes32 requestId) {
-        requestId = requestRandomness(keyHash, fee);
-        emit RequestedRandomness(requestId);
-    }
-
-    // Recieve random number callback result
-    function fulfillRandomness(bytes32 requestId, uint256 randomness)
-        internal
-        override
-    {
-        // TODO call Ferry function to complete NFT mint accounting
-        // randomResult = randomness;
-        uint256 rarityScore = (randomness % 1000) + 1;
-
-        console.log(randomness);
+    // TODO Needs to be completed
+    function mintNFT(address _account) external override onlyFerry {
+        // Call from Ferry once account has random num from Chainlink
+        // retrieves random num for account from mapping
+        uint256 rarityScore = (randomNums[_account] % 1000) + 1;
 
         if (rarityScore == 1000) {
             // LEGENDARY (0.1%)
@@ -109,6 +88,38 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
         });
 
         ZoraMedia.mint(data, bidShares);
+    }
+
+    modifier onlyFerry() {
+        require(ferry == msg.sender);
+        _;
+    }
+
+    // ==================== //
+    //      CHAINLINK       //
+    // ==================== //
+
+    event RequestedRandomness(bytes32 requestId);
+    event RandomnessFulfilled(bytes32 requestId);
+
+    // Request random number
+    function _getRandomNumber(address _account) private returns (bytes32 requestId) {
+        requestId = requestRandomness(keyHash, fee);
+        nftRequests[requestId] = _account;
+        emit RequestedRandomness(requestId);
+    }
+
+    // Recieve random number callback result
+    function fulfillRandomness(bytes32 requestId, uint256 randomness)
+        internal
+        override
+    {
+        address _account = nftRequests[requestId];
+
+        randomNums[_account] = randomness;
+        IFerry(ferry).nftCreatedCallback(_account, randomness);
+
+        emit RandomnessFulfilled(requestId);
     }
 
     function withdrawLINK() external onlyOwner {
