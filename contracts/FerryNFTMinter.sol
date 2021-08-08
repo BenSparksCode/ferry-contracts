@@ -18,8 +18,8 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable, IFerryNFTMinter {
     address public ferry;
     IMedia ZoraMedia;
 
-    mapping(bytes32 => address) nftRequests;
-    mapping(address => uint256) randomNums;
+    mapping(bytes32 => address) private nftRequests;
+    mapping(address => uint256) private randomNums;
     IMarket.BidShares private bidShares;
 
     // Chainlink vars
@@ -103,7 +103,10 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable, IFerryNFTMinter {
     event RandomnessFulfilled(bytes32 requestId);
 
     // Request random number
-    function _getRandomNumber(address _account) private returns (bytes32 requestId) {
+    function _getRandomNumber(address _account)
+        private
+        returns (bytes32 requestId)
+    {
         requestId = requestRandomness(keyHash, fee);
         nftRequests[requestId] = _account;
         emit RequestedRandomness(requestId);
@@ -127,5 +130,17 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable, IFerryNFTMinter {
             LINK.transfer(msg.sender, LINK.balanceOf(address(this))),
             "FERRY_NFT: LINK WITHDRAW FAILED"
         );
+    }
+
+    //------------------------------//
+    //      VIEW FUNCTIONS          //
+    //------------------------------//
+
+    function getAccountRandomNum(address _account)
+        external
+        view
+        returns (uint256)
+    {
+        return randomNums[_account];
     }
 }
