@@ -126,7 +126,7 @@ contract Ferry is IFerry, Ownable {
     }
 
     modifier onlyMinter() {
-        require(minterAddress == msg.sender);
+        require(minterAddress == msg.sender, "FERRY: ONLY MINTER IS AUTHORIZED");
         _;
     }
 

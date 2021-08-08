@@ -91,7 +91,7 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable, IFerryNFTMinter {
     }
 
     modifier onlyFerry() {
-        require(ferry == msg.sender);
+        require(ferry == msg.sender, "FERRY_NFT: ONLY FERRY IS AUTHORIZED");
         _;
     }
 
