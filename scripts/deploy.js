@@ -75,6 +75,8 @@ async function main() {
   //      example: await deploy("Token", [], {}, { "SafeMath": "0x..."});
   //    - function calls: use this format: `token.contact.mint()`
 
+  // TODO if network mumbai/polygon for DAI addresses etc.
+
   const ferry = await deploy("Ferry", [
     constants.DEPLOY.FERRY.annualFee,
     constants.DEPLOY.FERRY.maxMintedNFTs,
