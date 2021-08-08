@@ -13,7 +13,7 @@ const ProgressBar = require("progress");
 
 const { constants } = require("../test/TestConstants")
 
-const gasLimit = 5000000      // 2 million
+const gasLimit = 5000000      // 5 million
 const gasPrice = 5000000000   // 5 gwei
 
 // For waiting to not spam public RPCs on deploy
@@ -75,8 +75,6 @@ async function main() {
   //      example: await deploy("Token", [], {}, { "SafeMath": "0x..."});
   //    - function calls: use this format: `token.contact.mint()`
 
-  // TODO if network mumbai/polygon for DAI addresses etc.
-
   const ferry = await deploy("Ferry", [
     constants.DEPLOY.FERRY.annualFee,
     constants.DEPLOY.FERRY.maxMintedNFTs,
@@ -90,14 +88,27 @@ async function main() {
     gasPrice
   });
 
+  contracts.push(ferry);          // includes details for verification
+
+  const ferryNftMinter = await deploy("FerryNFTMinter", [
+    ferry.address,
+    constants.MUMBAI.ZoraMedia,
+    constants.MUMBAI.ChainlinkVRFCoordinator,
+    constants.MUMBAI.LINK,
+    constants.MUMBAI.ChainlinkKeyHash
+  ], {
+    gasLimit,
+    gasPrice
+  });
+
+  contracts.push(ferryNftMinter); // includes details for verification
+
 
   // make sure to push contract details - it's needed for verification
-  contracts.push(ferry);
+
 
   // verification
   if (verifiableNetwork.includes(network)) {
-    let counter = 0;
-
     console.log("Beginning Etherscan verification process...\n",
       chalk.yellow(`WARNING: The process will wait two minutes for Etherscan \nto update their backend before commencing, please wait \nand do not stop the terminal process...`)
     );
@@ -107,7 +118,7 @@ async function main() {
       complete: '\u2588',
       incomplete: '\u2591',
     });
-    // two minute timeout to let Etherscan update
+    // 1 minute timeout to let Etherscan update
     const timer = setInterval(() => {
       bar.tick();
       if (bar.complete) {
@@ -115,7 +126,7 @@ async function main() {
       }
     }, 2300);
 
-    await pause(120000);
+    await pause(60000);
 
     // there may be some issues with contracts using libraries 
     // if you experience problems, refer to https://hardhat.org/plugins/nomiclabs-hardhat-etherscan.html#providing-libraries-from-a-script-or-task
@@ -137,11 +148,13 @@ async function main() {
 
   console.log("✅✅ Deployment script completed! ✅✅");
 
-  console.table([
-    ferry
-  ]);
-}
+  tableContracts = contracts.map(c => ({
+    name: c.name,
+    address: c.address
+  }))
 
+  console.table(tableContracts);
+}
 
 main()
   .then(() => process.exit(0))
@@ -149,6 +162,3 @@ main()
     console.error(error);
     process.exit(1);
   });
-
-
-

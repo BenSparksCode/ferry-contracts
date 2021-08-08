@@ -2,7 +2,18 @@
 
 Smart contracts for Ferry.
 
-# To Do List
+## Latest Mumbai Contracts
+
+```
+┌─────────┬──────────────────┬──────────────────────────────────────────────┐
+│ (index) │       name       │                   address                    │
+├─────────┼──────────────────┼──────────────────────────────────────────────┤
+│    0    │     'Ferry'      │ '0xc07fE37C5a834622c1D77eF24f0E7cDFb460E739' │
+│    1    │ 'FerryNFTMinter' │ '0x4666A52afE872a5af073E3199738ac7bbDbB970e' │
+└─────────┴──────────────────┴──────────────────────────────────────────────┘
+```
+
+## To Do List
 
 - [ ] Test all functions work on mainnet fork
 - [ ] Deploy to Mumbai to test VRF

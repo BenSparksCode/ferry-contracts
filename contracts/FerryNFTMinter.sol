@@ -69,7 +69,6 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
 
     event RequestedRandomness(bytes32 requestId);
 
-    // TODO shouldn't be public, haters will drain the linkies
     // Request random number
     function _getRandomNumber() private returns (bytes32 requestId) {
         requestId = requestRandomness(keyHash, fee);
