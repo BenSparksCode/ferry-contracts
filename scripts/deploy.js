@@ -125,8 +125,11 @@ async function main() {
     }));
   }
 
-  // todos: add table
-  // todo: don't forget to clean up when ready
+  console.log("✅✅ Deployment script completed! ✅✅");
+
+  console.table([
+    ferry
+  ]);
 }
 
 
