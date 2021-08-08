@@ -59,19 +59,15 @@ async function main() {
   const network = process.env.HARDHAT_NETWORK === undefined ? "localhost" : process.env.HARDHAT_NETWORK;
 
   console.log("🚀 Deploying to", chalk.magenta(network), "!");
-  if (
-    network === "localhost" ||
-    network === "hardhat"
-  ) {
-    const [deployer] = await ethers.getSigners();
 
-    console.log(
-      chalk.cyan("deploying contracts with the account:"),
-      chalk.green(deployer.address)
-    );
+  const [deployer] = await ethers.getSigners();
 
-    console.log("Account balance:", (await deployer.getBalance()).toString());
-  }
+  console.log(
+    chalk.cyan("deploying contracts with the account:"),
+    chalk.green(deployer.address)
+  );
+
+  console.log("Account balance:", (await deployer.getBalance()).toString());
 
   // this array stores the data for contract verification
   let contracts = [];
@@ -121,17 +117,17 @@ async function main() {
 
   // activate NFT minting on ferry
   console.log("Activating NFT minting...");
-  await ferry.contract.setNFTMinter(ferryNftMinter.address, true)
+  await ferry.contract.connect(deployer).setNFTMinter(ferryNftMinter.address, true)
   console.log("✨ NFT Minting activated");
 
   // Approve DAI for deployer-ferry
   console.log("Approving Ferry to accept deployer's DAI...");
-  await DAI.approve(ferry.address, constants.DEPLOY.TOKENS.daiApproveAmount)
+  await DAI.connect(deployer).approve(ferry.address, constants.DEPLOY.TOKENS.daiApproveAmount)
   console.log("✨ Ferry approved for deployer DAI");
 
   // deposit LINK from deployer to minter
   console.log("Sending LINK to FerryNFTMinter...");
-  await LINK.transfer(ferryNftMinter.address, constants.DEPLOY.TOKENS.linkToMinterAmount)
+  await LINK.connect(deployer).transfer(ferryNftMinter.address, constants.DEPLOY.TOKENS.linkToMinterAmount)
   console.log("✨ LINK transfered to FerryNFTMinter");
 
 
