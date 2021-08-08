@@ -52,7 +52,7 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable {
 
     // TODO minted NFTs act as transferrable key to Superfluid stream of gov tokens ???
 
-    function mint() external onlyFerry {
+    function mint(address _account, uint256 _amount) external onlyFerry {
         // Request random num from Chainlink
         _getRandomNumber();
         // Callback in 10 blocks will generate and mint NFT

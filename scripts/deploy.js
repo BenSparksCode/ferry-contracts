@@ -1,11 +1,20 @@
-import hre, { ethers } from "hardhat";
-import "@nomiclabs/hardhat-etherscan";
-import chalk from "chalk";
-import fs from "fs";
-import { Contract } from "ethers";
-import ProgressBar from "progress";
+// import hre, { ethers } from "hardhat";
+const hre = require("hardhat");
+const { ethers } = require("hardhat");
+require("@nomiclabs/hardhat-etherscan");
+// import "@nomiclabs/hardhat-etherscan";
+const chalk = require("chalk");
+// import chalk from "chalk";
+// import fs from "fs";
+const fs = require("fs");
+// import { Contract } from "ethers";
+// import ProgressBar from "progress";
+const ProgressBar = require("progress");
 
 const { constants } = require("../test/TestConstants")
+
+const gasLimit = 5000000      // 2 million
+const gasPrice = 5000000000   // 5 gwei
 
 // For waiting to not spam public RPCs on deploy
 const pause = (time) => new Promise(resolve => setTimeout(resolve, time));
@@ -23,7 +32,6 @@ const deploy = async (contractName, _args = [], overrides = {}, libraries = {}) 
   fs.writeFileSync(`artifacts/${contractName}.address`, contractAddress);
   fs.writeFileSync(`artifacts/${contractName}.args`, stringifiedArgs);
 
-  // tslint:disable-next-line: no-console
   console.log("Deploying", chalk.cyan(contractName), "contract to", chalk.magenta(contractAddress));
 
   await contract.deployed();
@@ -72,10 +80,13 @@ async function main() {
     constants.DEPLOY.FERRY.maxMintedNFTs,
     constants.DEPLOY.FERRY.nftThreshold,
     constants.DEPLOY.FERRY.maxMembershipPeriod,
-    constants.POLYGON.DAI,
-    constants.POLYGON.AaveLendingPool,
+    constants.MUMBAI.DAI,
+    constants.MUMBAI.AaveLendingPool,
     ethers.constants.AddressZero  // setting NFT minter later
-  ]);
+  ], {
+    gasLimit,
+    gasPrice
+  });
 
 
   // make sure to push contract details - it's needed for verification
@@ -109,17 +120,14 @@ async function main() {
     console.log(chalk.cyan("\n🔍 Running Etherscan verification..."));
 
     await Promise.all(contracts.map(async contract => {
-      // tslint:disable-next-line: no-console
       console.log(`Verifying ${contract.name}...`);
       try {
         await hre.run("verify:verify", {
           address: contract.address,
           constructorArguments: contract.args
         });
-        // tslint:disable-next-line: no-console
         console.log(chalk.cyan(`✅ ${contract.name} verified!`));
       } catch (error) {
-        // tslint:disable-next-line: no-console
         console.log(error);
       }
     }));
@@ -131,7 +139,6 @@ async function main() {
     ferry
   ]);
 }
-
 
 
 main()

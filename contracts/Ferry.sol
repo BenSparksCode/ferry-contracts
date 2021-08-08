@@ -50,6 +50,7 @@ contract Ferry is Ownable {
         nftThresholdPayment = _nftThreshold;
         maxMintedNFTs = _maxMintedNFTs;
 
+        // TODO refactor from interfaces to addresses
         DAI = IERC20(_dai);
         daiAddress = _dai;
         AaveLendingPool = ILendingPool(_lendingPool);
