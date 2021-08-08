@@ -15,9 +15,9 @@ Smart contracts for Ferry.
 
 ## To Do List
 
+- [ ] Add Superfluid stream for staking rewards portion of gov token, triggered on exit if needed
 - [ ] Test all functions work on mainnet fork
 - [ ] Deploy to Mumbai to test VRF
-- [ ] Add Superfluid stream for staking rewards portion of gov token, triggered on exit if needed
 - [ ] Note if textile bridge is a frontend thing only - tell Ryan and plan admin dashboard
 - [ ] Zora callback data for owner -> NFT must be stored in contract
 - [ ] Work out NFT generation and storage with Zora

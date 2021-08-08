@@ -51,7 +51,10 @@ const CONSTANTS = {
         },
         NFT_MINTER: {
             vrfFee: 100000000000000,
-
+        },
+        TOKENS: {
+            daiApproveAmount: ethers.utils.parseUnits("30", "ether"),
+            linkToMinterAmount: 1000000000000000 // 10 * 0.0001 VRF fee
         }
     }
 }

@@ -16,6 +16,19 @@ const { constants } = require("../test/TestConstants")
 const gasLimit = 5000000      // 5 million
 const gasPrice = 5000000000   // 5 gwei
 
+// Creating DAI and LINK token instances
+const ERC20_ABI = require("../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json")
+const DAI = new ethers.Contract(
+  constants.MUMBAI.DAI,
+  ERC20_ABI.abi,
+  ethers.provider
+)
+const LINK = new ethers.Contract(
+  constants.MUMBAI.LINK,
+  ERC20_ABI.abi,
+  ethers.provider
+)
+
 // For waiting to not spam public RPCs on deploy
 const pause = (time) => new Promise(resolve => setTimeout(resolve, time));
 // If deploy network is here, will attempt to verify on Etherscan
@@ -104,10 +117,26 @@ async function main() {
   contracts.push(ferryNftMinter); // includes details for verification
 
 
-  // make sure to push contract details - it's needed for verification
+  // === EXTRA SETUP TRANSACTIONS ===
+
+  // activate NFT minting on ferry
+  console.log("Activating NFT minting...");
+  await ferry.contract.setNFTMinter(ferryNftMinter.address, true)
+  console.log("✨ NFT Minting activated");
+
+  // Approve DAI for deployer-ferry
+  console.log("Approving Ferry to accept deployer's DAI...");
+  await DAI.approve(ferry.address, constants.DEPLOY.TOKENS.daiApproveAmount)
+  console.log("✨ Ferry approved for deployer DAI");
+
+  // deposit LINK from deployer to minter
+  console.log("Sending LINK to FerryNFTMinter...");
+  await LINK.transfer(ferryNftMinter.address, constants.DEPLOY.TOKENS.linkToMinterAmount)
+  console.log("✨ LINK transfered to FerryNFTMinter");
 
 
-  // verification
+
+  // === VERIFICATION ===
   if (verifiableNetwork.includes(network)) {
     console.log("Beginning Etherscan verification process...\n",
       chalk.yellow(`WARNING: The process will wait two minutes for Etherscan \nto update their backend before commencing, please wait \nand do not stop the terminal process...`)
