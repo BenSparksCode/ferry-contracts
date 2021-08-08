@@ -10,11 +10,12 @@
     "accounts": "hardhat accounts",
     "balance": "hardhat balance",
     "generate": "hardhat generate",
-    "account": "hardhat account"  
+    "account": "hardhat account"
   },
   "dependencies": {
     "@chainlink/contracts": "^0.2.1",
     "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@nomiclabs/hardhat-etherscan": "^2.1.4",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@openzeppelin/contracts": "^4.1.0",
     "@zoralabs/core": "^1.0.5",

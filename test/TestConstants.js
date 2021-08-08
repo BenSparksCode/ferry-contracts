@@ -25,8 +25,8 @@ const CONSTANTS = {
     SHIP: {
         decimals: 18,
         total: 100000000,               //  100 million
-        hackathonAirdrop: 5000000,      //  5 million
-        mainnetAirdrop: 5000000,        //  5 million
+        hackathonAirdrop: 2000000,      //  2 million
+        mainnetAirdrop: 8000000,        //  8 million
         strategicPartners: 16000000,    //  16 million
         stakingRewards: 20000000,       //  20 million
         teamVesting: 24000000,          //  24 million
