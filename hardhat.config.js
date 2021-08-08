@@ -33,7 +33,22 @@ module.exports = {
         url: "https://polygon-mainnet.g.alchemy.com/v2/" + process.env.ALCHEMY_API,
         blockNumber: 17748900
       }
+    },
+    mumbai: {
+      url: "https://rpc-mumbai.maticvigil.com",
+      accounts: [`${process.env.MUMBAI_DEPLOYER_PRIV_KEY}`],
+      chainId: 80001
+    },
+    polygon: {
+      url: "https://matic-mainnet.chainstacklabs.com",
+      accounts: [`${process.env.POLYGON_DEPLOYER_PRIV_KEY}`],
+      chainId: 137,
+      // gasLimit: 5000000,
+      // gasPrice: 120000000000 
     }
+  },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_API_KEY
   }
 };
 
