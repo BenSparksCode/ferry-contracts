@@ -10,7 +10,8 @@ const CONSTANTS = {
         ChainlinkKeyHash: "0x6e75b569a01ef56d18cab6a8e71e6600d6ce853834d4a5748b720d06f878b3a4",
         AaveLendingPool: "0x9198F13B08E299d85E096929fA9781A1E3d5d827",
         ZoraMedia: "0xabEFBc9fD2F806065b4f3C237d4b59D9A97Bcac7",
-        ZoraMarket: "0xE5BFAB544ecA83849c53464F85B7164375Bdaac1"
+        ZoraMarket: "0xE5BFAB544ecA83849c53464F85B7164375Bdaac1",
+        SuperTokenFactory: "0x200657E2f123761662567A1744f9ACAe50dF47E6",
     },
     POLYGON: {
         DAI: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
@@ -20,7 +21,8 @@ const CONSTANTS = {
         ChainlinkKeyHash: "0xf86195cf7690c55907b2b611ebb7343a6f649bff128701cc542f0569e2c549da",
         AaveLendingPool: "0x8dFf5E27EA6b7AC08EbFdf9eB090F32ee9a30fcf",
         ZoraMedia: "0x6953190AAfD8f8995e8f47e8F014d0dB83E92300",
-        ZoraMarket: "0xE20bd7dC76e09AEBC2A9A732AB6AEE616c5a17Eb"
+        ZoraMarket: "0xE20bd7dC76e09AEBC2A9A732AB6AEE616c5a17Eb",
+        SuperTokenFactory: "0x2C90719f25B10Fc5646c82DA3240C76Fa5BcCF34",
     },
     SHIP: {
         decimals: 18,

@@ -59,6 +59,7 @@ Streaming Rewards:
 - [Superfluid Docs](https://docs.superfluid.finance/superfluid/protocol-tutorials/super-tokens)
 - [Superfluid Networks](https://docs.superfluid.finance/superfluid/networks/networks)
 - [Superfluid Soda Example](https://remix.ethereum.org/#version=soljson-v0.7.6+commit.7338295f.js&optimize=false&runs=200&gist=4669f393d5b9cc199c88ab6e9c68686f&evmVersion=null)
+- [SuperTokenFactory Contract](https://github.com/superfluid-finance/protocol-monorepo/blob/dev/packages/ethereum-contracts/contracts/superfluid/SuperTokenFactory.sol)
 
 Unique NFT Minting:
 
