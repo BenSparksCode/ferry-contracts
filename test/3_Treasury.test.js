@@ -25,7 +25,6 @@ describe.only("Treasury tests", function () {
         ownerAddress = await owner.getAddress()
         aliceAddress = await alice.getAddress()
 
-
         FerryContract = await ethers.getContractFactory("Ferry")
         FerryInstance = await FerryContract.connect(owner).deploy(
             constants.DEPLOY.FERRY.annualFee,
@@ -46,8 +45,17 @@ describe.only("Treasury tests", function () {
             constants.POLYGON.ChainlinkKeyHash
         )
 
+        ShipContract = await ethers.getContractFactory("ShipToken")
+        ShipInstance = await ShipContract.connect(owner).deploy(
+            constants.DEPLOY.SHIP.name,
+            constants.DEPLOY.SHIP.symbol,
+            constants.DEPLOY.SHIP.totalSupply
+        )
 
-
+        xShipContract = await ethers.getContractFactory("ShipHarbor")
+        xShipInstance = await xShipContract.connect(owner).deploy(
+            ShipInstance.address
+        )
     })
-    it("First test", async () => {});
+    it("First test", async () => { });
 });
