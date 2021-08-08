@@ -66,18 +66,25 @@ async function main() {
   //    - libraries can be added by address after that
   //      example: await deploy("Token", [], {}, { "SafeMath": "0x..."});
   //    - function calls: use this format: `token.contact.mint()`
-  const token = await deploy("Token");
 
-  
+  const ferry = await deploy("Ferry", [
+    constants.DEPLOY.FERRY.annualFee,
+    constants.DEPLOY.FERRY.maxMintedNFTs,
+    constants.DEPLOY.FERRY.nftThreshold,
+    constants.DEPLOY.FERRY.maxMembershipPeriod,
+    constants.POLYGON.DAI,
+    constants.POLYGON.AaveLendingPool,
+    ethers.constants.AddressZero  // setting NFT minter later
+  ]);
+
 
   // make sure to push contract details - it's needed for verification
-  contracts.push(token);
+  contracts.push(ferry);
 
   // verification
   if (verifiableNetwork.includes(network)) {
     let counter = 0;
 
-    // tslint:disable-next-line: no-console
     console.log("Beginning Etherscan verification process...\n",
       chalk.yellow(`WARNING: The process will wait two minutes for Etherscan \nto update their backend before commencing, please wait \nand do not stop the terminal process...`)
     );
