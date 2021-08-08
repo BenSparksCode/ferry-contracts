@@ -32,18 +32,18 @@ describe.only("Treasury tests", function () {
             constants.DEPLOY.FERRY.maxMintedNFTs,
             constants.DEPLOY.FERRY.nftThreshold,
             constants.DEPLOY.FERRY.maxMembershipPeriod,
-            constants.MUMBAI.DAI,
-            constants.MUMBAI.AaveLendingPool,
+            constants.POLYGON.DAI,
+            constants.POLYGON.AaveLendingPool,
             ethers.constants.AddressZero  // setting NFT minter later
         )
 
         FerryMinterContract = await ethers.getContractFactory("FerryNFTMinter")
         FerryMinterInstance = await FerryMinterContract.connect(owner).deploy(
             FerryInstance.address,
-            constants.MUMBAI.ZoraMedia,
-            constants.MUMBAI.ChainlinkVRFCoordinator,
-            constants.MUMBAI.LINK,
-            constants.MUMBAI.ChainlinkKeyHash
+            constants.POLYGON.ZoraMedia,
+            constants.POLYGON.ChainlinkVRFCoordinator,
+            constants.POLYGON.LINK,
+            constants.POLYGON.ChainlinkKeyHash
         )
 
 
