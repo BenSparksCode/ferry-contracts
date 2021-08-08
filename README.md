@@ -2,6 +2,18 @@
 
 Smart contracts for Ferry.
 
+# To Do List
+
+- [ ] Test all functions work on mainnet fork
+- [ ] Deploy to Mumbai to test VRF
+- [ ] Add Superfluid stream for staking rewards portion of gov token, triggered on exit if needed
+- [ ] Note if textile bridge is a frontend thing only - tell Ryan and plan admin dashboard
+- [ ] Zora callback data for owner -> NFT must be stored in contract
+- [ ] Work out NFT generation and storage with Zora
+- [ ] Dig into Ceramic - try get demo app running
+- [ ] Try get Ceramic DID into contract subscription flow in mappings
+- [ ] Look into paying with MATIC and DAI
+
 ## Contracts
 
 - [x] SHIP Token
@@ -23,14 +35,14 @@ Smart contracts for Ferry.
 ## Tech Integrated
 
 - [x] Aave
-- [ ] IPFS
-- [ ] Filecoin
-- [ ] Polygon
-- [ ] Ceramic
+- [x] IPFS
+- [x] Polygon
 - [ ] Textile
+- [ ] Filecoin
 - [x] Chainlink
 - [ ] Zora
 - [ ] Superfluid
+- [ ] Ceramic
 
 ## Resources
 
