@@ -44,6 +44,11 @@ const CONSTANTS = {
             symbol: "SHIP",
             totalSupply: ethers.utils.parseUnits("100000000", "ether") //100 million with 18 decimals
         },
+        SuperSHIP:{
+            upgradability: 0,           // NON_UPGRADABLE in the Upgradability enum
+            name: "SuperSHIP",          // The Super version of SHIP
+            symbol: "SHIPx",            // as per Superfluid's naming convention
+        },
         FERRY: {
             annualFee: ethers.utils.parseUnits("24", "ether"), //$24 per year to start
             maxMintedNFTs: 50000,
