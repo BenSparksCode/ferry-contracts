@@ -86,6 +86,13 @@ async function main() {
         gasPrice
     });
 
+    // .createFlow(
+    //     superTokenNorm,
+    //     receiverNorm,
+    //     flowRateNorm,
+    //     "0x"
+    // )
+
     details = await rewardsSender.details();
     console.log(details);
 

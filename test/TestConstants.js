@@ -12,6 +12,7 @@ const CONSTANTS = {
         ZoraMedia: "0xabEFBc9fD2F806065b4f3C237d4b59D9A97Bcac7",
         ZoraMarket: "0xE5BFAB544ecA83849c53464F85B7164375Bdaac1",
         SuperTokenFactory: "0x200657E2f123761662567A1744f9ACAe50dF47E6",
+        SuperfluidCFA: "0x49e565Ed1bdc17F3d220f72DF0857C26FA83F873",
     },
     POLYGON: {
         DAI: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
@@ -23,6 +24,7 @@ const CONSTANTS = {
         ZoraMedia: "0x6953190AAfD8f8995e8f47e8F014d0dB83E92300",
         ZoraMarket: "0xE20bd7dC76e09AEBC2A9A732AB6AEE616c5a17Eb",
         SuperTokenFactory: "0x2C90719f25B10Fc5646c82DA3240C76Fa5BcCF34",
+        SuperfluidCFA: "0x6EeE6060f715257b970700bc2656De21dEdF074C",
     },
     SHIP: {
         decimals: 18,
