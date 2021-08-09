@@ -38,7 +38,10 @@ module.exports = {
     mumbai: {
       url: "https://polygon-mumbai.g.alchemy.com/v2/" + process.env.ALCHEMY_API,
       accounts: [`${process.env.MUMBAI_DEPLOYER_PRIV_KEY}`],
-      chainId: 80001
+      chainId: 80001,
+      gas: 5000000,     // 5 million
+      gasLimit: 5000000,     // 5 million
+      gasPrice: 5000000000   // 5 gwei
     },
     polygon: {
       url: "https://matic-mainnet.chainstacklabs.com",

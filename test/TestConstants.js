@@ -34,10 +34,6 @@ const CONSTANTS = {
         teamVesting: 24000000,          //  24 million
         daoTreasury: 30000000           //  30 million
     },
-    TEST_PARAMS:{},
-    PROTOCOL_PARAMS: {},
-    PROTOCOL_REVERTS: {},
-    WALLETS: {},
     DEPLOY: {
         SHIP:{
             name: "SHIP",
