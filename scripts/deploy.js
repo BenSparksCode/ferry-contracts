@@ -84,7 +84,6 @@ async function main() {
   //      example: await deploy("Token", [], {}, { "SafeMath": "0x..."});
   //    - function calls: use this format: `token.contact.mint()`
 
-
   const shipToken = await deploy("ShipToken", [
     constants.DEPLOY.SHIP.name,
     constants.DEPLOY.SHIP.symbol,
@@ -137,7 +136,7 @@ async function main() {
 
   // === EXTRA SETUP TRANSACTIONS ===
 
-  // TODO create SuperToken for SHIP
+  // TODO Improvement: get address, setup flows, verification
   console.log("Creating SHIPx SuperToken for SHIP...");
   let res = await SuperTokenFactory.connect(deployer).createERC20Wrapper(
     shipToken.address,    // has decimals in token contract, so don't need to specify here
@@ -146,7 +145,6 @@ async function main() {
     constants.DEPLOY.SuperSHIP.symbol
   )
   console.log("✨ SHIPx SuperToken created");
-  console.log(res, res.toString());
 
   // activate NFT minting on ferry
   console.log("Activating NFT minting...");

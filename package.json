@@ -20,6 +20,7 @@
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@openzeppelin/contracts": "^4.1.0",
     "@superfluid-finance/ethereum-contracts": "^1.0.0-rc.6",
+    "@superfluid-finance/js-sdk": "^0.5.2",
     "@zoralabs/core": "^1.0.5",
     "chai": "^4.3.4",
     "chalk": "^4.1.2",
