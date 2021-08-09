@@ -17,15 +17,6 @@ let xShipContract, xShipInstance;
 let FerryContract, FerryInstance;
 let FerryMinterContract, FerryMinterInstance;
 
-let SuperShipInstance;
-
-const SuperTokenFactory_ABI = require("../artifacts/contracts/interfaces/ISuperTokenFactory.sol/ISuperTokenFactory.json")
-let SuperTokenFactory = new ethers.Contract(
-    constants.POLYGON.SuperTokenFactory,
-    SuperTokenFactory_ABI.abi,
-    ethers.provider
-)
-
 describe.only("Treasury tests", function () {
     beforeEach(async () => {
 
@@ -66,19 +57,7 @@ describe.only("Treasury tests", function () {
             ethers.constants.AddressZero // set the SuperToken stream address later
         )
     })
-    it("Creating Super Token", async () => {
-        // Wrap SHIP token with SuperTokenFactory to create a SHIPx SuperToken
-
-        await SuperTokenFactory.connect(owner).createERC20Wrapper(
-            ShipInstance.address, // has decimals in token contract, so don't need to specify here
-            constants.DEPLOY.SuperSHIP.upgradability, // NON_UPGRADABLE in the Upgradability enum
-            constants.DEPLOY.SuperSHIP.name,
-            constants.DEPLOY.SuperSHIP.symbol
-        )
-
-        // CANT DO THIS BECAUSE CANT GET ADDRESS OF SUPER TOKEN
-
-        // console.log(SuperShipInstance);
-        // console.log(await SuperShipInstance.name());
+    it("Creating Token", async () => {
+        
     });
 });
