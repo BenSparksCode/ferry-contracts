@@ -5,14 +5,17 @@ pragma solidity 0.8.6;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperToken.sol";
 
 // This contract handles swapping to and from xSHIP, Ferry's staking token.
 contract ShipHarbor is ERC20("StakedShip", "xSHIP") {
     IERC20 public ship;
+    address public SuperfluidRewardsDistributor;
 
     // Define the SHIP token contract
-    constructor(IERC20 _ship) {
+    constructor(IERC20 _ship, address _rewardsFlow) {
         ship = _ship;
+        SuperfluidRewardsDistributor = _rewardsFlow;
     }
 
     // Enter the bar. Pay some SHIPs. Earn some shares.

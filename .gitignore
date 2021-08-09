@@ -79,8 +79,5 @@ yarn.lock
 
 # Hardhat cache and artifacts
 cache/
-artifacts/@chainlink
-artifacts/@openzeppelin
 artifacts/build-info
-artifacts/contracts/interfaces
 artifacts/contracts/utils

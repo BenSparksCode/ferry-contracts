@@ -1,14 +1,8 @@
-// import hre, { ethers } from "hardhat";
 const hre = require("hardhat");
 const { ethers } = require("hardhat");
 require("@nomiclabs/hardhat-etherscan");
-// import "@nomiclabs/hardhat-etherscan";
 const chalk = require("chalk");
-// import chalk from "chalk";
-// import fs from "fs";
 const fs = require("fs");
-// import { Contract } from "ethers";
-// import ProgressBar from "progress";
 const ProgressBar = require("progress");
 
 const { constants } = require("../test/TestConstants")
