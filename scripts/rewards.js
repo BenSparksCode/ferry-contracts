@@ -8,7 +8,8 @@ const ProgressBar = require("progress");
 
 const { constants } = require("../test/TestConstants")
 
-const SuperTokenFactory_ABI = require("../artifacts/contracts/interfaces/ISuperTokenFactory.sol/ISuperTokenFactory.json")
+const SuperToken_ABI = require("../abis/SuperToken.json");
+const SuperfluidCFA_ABI = require("../abis/ConstantFlowAgreementV1.json");
 
 // UPDATE THESE VARS BEFORE RUNNING
 // -------------------------------
@@ -19,16 +20,26 @@ const SuperSHIPAddress = "0xB9650D2A075c1140FBaF513B2fBebA246Cba4115"
 const gasLimit = 5000000      // 5 million
 const gasPrice = 5000000000   // 5 gwei
 
+let SuperSHIP = new ethers.Contract(
+    SuperSHIPAddress,
+    SuperToken_ABI.abi,
+    ethers.provider
+)
+
+let SuperfluidCFA = new ethers.Contract(
+    constants.MUMBAI.SuperfluidCFA,
+    SuperfluidCFA_ABI.abi,
+    ethers.provider
+)
+
 const sfSDK = new SuperfluidSDK.Framework({
     ethers: ethers.provider
 })
-
 
 // For waiting to not spam public RPCs on deploy
 const pause = (time) => new Promise(resolve => setTimeout(resolve, time));
 // If deploy network is here, will attempt to verify on Etherscan
 const verifiableNetwork = ["mainnet", "ropsten", "rinkeby", "goerli", "kovan", "polygon", "mumbai"];
-
 
 
 async function main() {
@@ -78,20 +89,14 @@ async function main() {
 
     console.log("My calc for rewardsPerSec:", rewardsPerSecond.toString());
 
-    await rewardsSender.flow({
-        recipient: '0xbB8C9E6c7D632a367557994ae08f558E6A8945cD', // Ferry's address lol
-        flowRate: rewardsPerSecond.toString(),
-        gas: gasLimit,
+    await SuperfluidCFA.connect(deployer).createFlow(
+        SuperSHIPAddress,
+        '0xbB8C9E6c7D632a367557994ae08f558E6A8945cD', // Ferry's address lol TODO change
+        rewardsPerSecond.toString(),
+        "0x", {
         gasLimit,
         gasPrice
-    });
-
-    // .createFlow(
-    //     superTokenNorm,
-    //     receiverNorm,
-    //     flowRateNorm,
-    //     "0x"
-    // )
+    })
 
     details = await rewardsSender.details();
     console.log(details);

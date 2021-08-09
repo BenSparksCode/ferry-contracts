@@ -69,15 +69,16 @@ describe.only("Treasury tests", function () {
     it("Creating Super Token", async () => {
         // Wrap SHIP token with SuperTokenFactory to create a SHIPx SuperToken
 
-        SuperShipInstance = await SuperTokenFactory.connect(owner).createERC20Wrapper(
+        await SuperTokenFactory.connect(owner).createERC20Wrapper(
             ShipInstance.address, // has decimals in token contract, so don't need to specify here
             constants.DEPLOY.SuperSHIP.upgradability, // NON_UPGRADABLE in the Upgradability enum
             constants.DEPLOY.SuperSHIP.name,
             constants.DEPLOY.SuperSHIP.symbol
         )
 
-        console.log(SuperShipInstance);
+        // CANT DO THIS BECAUSE CANT GET ADDRESS OF SUPER TOKEN
 
-        console.log(await SuperShipInstance.name());
+        // console.log(SuperShipInstance);
+        // console.log(await SuperShipInstance.name());
     });
 });
