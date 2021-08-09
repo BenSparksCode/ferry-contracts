@@ -12,6 +12,7 @@ const gasPrice = 5000000000   // 5 gwei
 
 // Creating DAI and LINK token instances
 const ERC20_ABI = require("../artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json")
+const SuperTokenFactory_ABI = require("../artifacts/contracts/interfaces/ISuperTokenFactory.sol/ISuperTokenFactory.json")
 const DAI = new ethers.Contract(
   constants.MUMBAI.DAI,
   ERC20_ABI.abi,
@@ -20,6 +21,11 @@ const DAI = new ethers.Contract(
 const LINK = new ethers.Contract(
   constants.MUMBAI.LINK,
   ERC20_ABI.abi,
+  ethers.provider
+)
+let SuperTokenFactory = new ethers.Contract(
+  constants.MUMBAI.SuperTokenFactory,
+  SuperTokenFactory_ABI.abi,
   ethers.provider
 )
 
@@ -78,6 +84,28 @@ async function main() {
   //      example: await deploy("Token", [], {}, { "SafeMath": "0x..."});
   //    - function calls: use this format: `token.contact.mint()`
 
+
+  const shipToken = await deploy("ShipToken", [
+    constants.DEPLOY.SHIP.name,
+    constants.DEPLOY.SHIP.symbol,
+    constants.DEPLOY.SHIP.totalSupply
+  ], {
+    gasLimit,
+    gasPrice
+  })
+
+  contracts.push(shipToken);          // includes details for verification
+
+  const shipHarbor = await deploy("ShipHarbor", [
+    shipToken.address,
+    ethers.constants.AddressZero // set the SuperToken stream address later
+  ], {
+    gasLimit,
+    gasPrice
+  })
+
+  contracts.push(shipHarbor);          // includes details for verification
+
   const ferry = await deploy("Ferry", [
     constants.DEPLOY.FERRY.annualFee,
     constants.DEPLOY.FERRY.maxMintedNFTs,
@@ -108,6 +136,17 @@ async function main() {
 
 
   // === EXTRA SETUP TRANSACTIONS ===
+
+  // TODO create SuperToken for SHIP
+  console.log("Creating SHIPx SuperToken for SHIP...");
+  let res = await SuperTokenFactory.connect(deployer).createERC20Wrapper(
+    shipToken.address,    // has decimals in token contract, so don't need to specify here
+    constants.DEPLOY.SuperSHIP.upgradability,   // NON_UPGRADABLE in the Upgradability enum
+    constants.DEPLOY.SuperSHIP.name,
+    constants.DEPLOY.SuperSHIP.symbol
+  )
+  console.log("✨ SHIPx SuperToken created");
+  console.log(res, res.toString());
 
   // activate NFT minting on ferry
   console.log("Activating NFT minting...");

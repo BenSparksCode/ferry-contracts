@@ -68,4 +68,7 @@ interface ISuperTokenFactory {
     event SuperTokenCreated(ISuperToken indexed token);
 
     event CustomSuperTokenCreated(ISuperToken indexed token);
+
+    // custom event to get Super Token Address
+    event InterfaceImplementerSet (address indexed addr, bytes32 indexed interfaceHash, address indexed implementer);
 }

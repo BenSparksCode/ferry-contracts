@@ -77,5 +77,7 @@ describe.only("Treasury tests", function () {
         )
 
         console.log(SuperShipInstance);
+
+        console.log(await SuperShipInstance.name());
     });
 });
