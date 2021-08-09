@@ -43,14 +43,14 @@ Smart contracts for Ferry.
 
 ## Tech Integrated
 
-- [x] Aave
 - [x] IPFS
 - [x] Filecoin
 - [x] Polygon
+- [x] Aave
 - [x] Chainlink
-- [ ] Textile
-- [ ] Zora
 - [ ] Superfluid
+- [ ] Zora
+- [ ] Textile
 
 ## Resources
 
