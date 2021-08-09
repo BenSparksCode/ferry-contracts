@@ -18,10 +18,9 @@ Smart contracts for Ferry.
 ## To Do List
 
 - [x] Deploy to Mumbai to test VRF
-- [ ] Add Superfluid stream for staking rewards portion of gov token, triggered on exit if needed
 - [ ] Note if textile bridge is a frontend thing only - tell Ryan and plan admin dashboard
 - [ ] Zora callback data for owner -> NFT must be stored in contract
-- [ ] Work out NFT generation and storage with Zora
+- [x] Work out NFT generation and storage with Zora
 - [ ] Test all functions work on mainnet fork
 - [ ] Look into paying with MATIC and DAI
 
@@ -35,7 +34,6 @@ Smart contracts for Ferry.
 ## Tests
 
 - [ ] SHIP Token
-- [ ] SHIP Staking Rewards via Superfluid
 - [ ] Ferry Core
 - [ ] Ferry Aave Integration
 - [ ] Ferry NFT Minter
@@ -50,18 +48,10 @@ Smart contracts for Ferry.
 - [x] Polygon
 - [x] Aave
 - [x] Chainlink
-- [ ] Superfluid
 - [ ] Zora
 - [ ] Textile
 
 ## Resources
-
-Streaming Rewards:
-
-- [Superfluid Docs](https://docs.superfluid.finance/superfluid/protocol-tutorials/super-tokens)
-- [Superfluid Networks](https://docs.superfluid.finance/superfluid/networks/networks)
-- [Superfluid Soda Example](https://remix.ethereum.org/#version=soljson-v0.7.6+commit.7338295f.js&optimize=false&runs=200&gist=4669f393d5b9cc199c88ab6e9c68686f&evmVersion=null)
-- [SuperTokenFactory Contract](https://github.com/superfluid-finance/protocol-monorepo/blob/dev/packages/ethereum-contracts/contracts/superfluid/SuperTokenFactory.sol)
 
 Unique NFT Minting:
 
