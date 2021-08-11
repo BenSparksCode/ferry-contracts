@@ -222,7 +222,11 @@ contract Ferry is IFerry, Ownable {
     }
 
     // Returns the random num of an address's NFT
-    function getAccountNFT(address _account) public view returns (uint256) {
-        return nftOwned[_account];
+    function getAccountNFT(address _account)
+        public
+        view
+        returns (uint256 randomNum, uint256 index)
+    {
+        return (nftOwned[_account].randomNum, nftOwned[_account].index);
     }
 }
