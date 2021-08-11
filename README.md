@@ -8,10 +8,10 @@ Smart contracts for Ferry.
 ┌─────────┬──────────────────┬──────────────────────────────────────────────┐
 │ (index) │       name       │                   address                    │
 ├─────────┼──────────────────┼──────────────────────────────────────────────┤
-│    0    │   'ShipToken'    │ '0xCDb81B465ddBCF30fC97d5C0F4146d2523ef6E64' │
-│    1    │   'ShipHarbor'   │ '0x8f60e1C6dd1fa1F69a5b6f00B23988670bB86065' │
-│    2    │     'Ferry'      │ '0xBDD8528E310cb5Cb3b162127AF38771DA8947419' │
-│    3    │ 'FerryNFTMinter' │ '0x9c79A6F28cFc5A8af156E9e1F74e48f9014edeD8' │
+│    0    │   'ShipToken'    │ '0x1EFcb17a4F5B628E82Fe8048D3B41ED0fdF375E3' │
+│    1    │   'ShipHarbor'   │ '0x74972961bbC7739403cA9ceec7Bab1290E1b555d' │
+│    2    │     'Ferry'      │ '0x0b281F1db24263Fdf816fAFF47b65446c252216D' │
+│    3    │ 'FerryNFTMinter' │ '0x14831828A501B4c4215B970902180a06c3A55af5' │
 └─────────┴──────────────────┴──────────────────────────────────────────────┘
 ```
 
