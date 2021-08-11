@@ -76,8 +76,8 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable, IFerryNFTMinter {
         }
 
         // TODO finish this - just for testing
-        string memory tURI = "https://example.com";
-        string memory mURI = "https://metadata.com";
+        string memory tURI = "https://example.com/";
+        string memory mURI = "https://metadata.com/";
 
         // TODO can try keccak if sha doesn't work
         IMedia.MediaData memory data = IMedia.MediaData({

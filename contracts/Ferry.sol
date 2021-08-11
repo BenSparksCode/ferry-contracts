@@ -33,10 +33,15 @@ contract Ferry is IFerry, Ownable {
     uint256 public nftThresholdPayment;
     uint256 public constant YEAR = 365 days;
 
+    struct NftData {
+        uint256 index;
+        uint256 randomNum;
+    }
+
     // address => membership expiry timestamp
     mapping(address => uint256) private memberships;
     // For membership NFTs -> 1 per account
-    mapping(address => uint256) private nftOwned;
+    mapping(address => NftData) private nftOwned;
     mapping(address => bool) private nftRequested;
 
     constructor(
@@ -121,12 +126,25 @@ contract Ferry is IFerry, Ownable {
         override
         onlyMinter
     {
-        nftOwned[_account] = _randomNum;
+        nftOwned[_account].randomNum = _randomNum;
+    }
+
+    function mintNFT(address _account) external {
+        require(
+            nftRequested[_account] && nftOwned[_account].randomNum == 0,
+            "FERRY: CAN'T MINT NFT"
+        );
+
+        NFTMinter.mintNFT(_account);
         nftCount++;
+        nftOwned[_account].index = nftCount;
     }
 
     modifier onlyMinter() {
-        require(minterAddress == msg.sender, "FERRY: ONLY MINTER IS AUTHORIZED");
+        require(
+            minterAddress == msg.sender,
+            "FERRY: ONLY MINTER IS AUTHORIZED"
+        );
         _;
     }
 
