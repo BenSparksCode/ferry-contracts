@@ -115,6 +115,8 @@ contract FerryNFTMinter is
 
         IFerry(ferry).updateNFTData(currentAccount, _tokenId);
 
+        
+
         currentAccount = address(0); // reset to zero address
 
         return ERC721_RECEIVED;
