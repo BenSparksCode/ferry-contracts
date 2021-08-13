@@ -5,5 +5,5 @@ pragma solidity 0.8.6;
 interface IFerry {
     function nftCreatedCallback(address _account, uint256 _randomNum) external;
 
-    function updateNFTData(uint256 _tokenID) external;
+    function updateNFTData(address _account, uint256 _tokenID) external;
 }

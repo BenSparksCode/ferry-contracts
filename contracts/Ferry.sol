@@ -8,16 +8,7 @@ import "./interfaces/ILendingPool.sol";
 import "./interfaces/IFerryNFTMinter.sol";
 import "./interfaces/IFerry.sol";
 
-import "hardhat/console.sol";
-
-// CORE:
-// Owned by a Gnosis Safe wallet
-// Function to pay Filecoin for storage via Polygon bridge (DAI->wFIL needed?)
-// Add limited unique NFT minting on paying fee
-// Receives payments for pro tier (in DAI) ✅
-// Function to deposit DAI in Aave ✅
-// Function to withdraw DAI from Aave ✅
-// View functions for user's subscription details ✅
+// Integrates with Aave for treasury management
 
 contract Ferry is IFerry, Ownable {
     // TODO add events
@@ -35,13 +26,10 @@ contract Ferry is IFerry, Ownable {
     uint256 public nftThresholdPayment;
     uint256 public constant YEAR = 365 days;
 
-    // TODO delete
-    uint256 public latestZoraID;
-
     struct NftData {
         uint256 index;
         uint256 randomNum;
-        uint256 zoraID;
+        uint256 tokenID;
     }
 
     // address => membership expiry timestamp
@@ -64,7 +52,6 @@ contract Ferry is IFerry, Ownable {
         nftThresholdPayment = _nftThreshold;
         maxMintedNFTs = _maxMintedNFTs;
 
-        // TODO refactor from interfaces to addresses
         DAI = IERC20(_dai);
         daiAddress = _dai;
         AaveLendingPool = ILendingPool(_lendingPool);
@@ -146,11 +133,8 @@ contract Ferry is IFerry, Ownable {
         nftOwned[_account].index = nftCount;
     }
 
-    // TODO should be onlyMinter (or onlyZora)
-    function updateNFTData(uint256 _tokenID) external override {
-        // console.log(msg.sender);
-
-        latestZoraID = _tokenID;
+    function updateNFTData(address _account, uint256 _tokenID) external override onlyMinter {
+        nftOwned[_account].tokenID = _tokenID;
     }
 
     modifier onlyMinter() {
@@ -238,8 +222,8 @@ contract Ferry is IFerry, Ownable {
     function getAccountNFT(address _account)
         public
         view
-        returns (uint256 randomNum, uint256 index)
+        returns (uint256 randomNum, uint256 index, uint256 tokenID)
     {
-        return (nftOwned[_account].randomNum, nftOwned[_account].index);
+        return (nftOwned[_account].randomNum, nftOwned[_account].index, nftOwned[_account].tokenID);
     }
 }

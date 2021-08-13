@@ -12,8 +12,6 @@ import "./interfaces/IFerryNFTMinter.sol";
 import "./interfaces/IFerry.sol";
 import "./utils/Decimal.sol";
 
-import "hardhat/console.sol";
-
 // Integrates with Chainlink's VRF to generate truly unique NFTs with random numbers
 // Integrates with Zora to mint the NFTs
 
@@ -24,9 +22,10 @@ contract FerryNFTMinter is
     IERC721Receiver
 {
     address public ferry;
-    IMedia ZoraMedia;
+    address private currentAccount; //for temp storage of NFT owner during mint
 
-    bytes4 internal constant ERC721_RECEIVED_FINAL = 0x150b7a02;
+    IMedia ZoraMedia;
+    bytes4 internal constant ERC721_RECEIVED = 0x150b7a02;
 
     mapping(bytes32 => address) private nftRequests;
     mapping(address => uint256) private randomNums;
@@ -72,34 +71,37 @@ contract FerryNFTMinter is
 
     // TODO Needs to be completed
     // TODO should be onlyFerry
-    function mintNFT(address _account) external override {
+    function mintNFT(address _account) external override onlyFerry {
         // Call from Ferry once account has random num from Chainlink
         // retrieves random num for account from mapping
         uint256 rarityScore = (randomNums[_account] % 1000) + 1;
 
+        string memory nftURI;
+        // TODO add real content URIs from IPFS
         if (rarityScore == 1000) {
             // LEGENDARY (0.1%)
+            nftURI = 'LEGENDARY';
         } else if (rarityScore > 980) {
             // EPIC (1.9%)
+            nftURI = 'EPIC';
         } else if (rarityScore > 780) {
             // RARE (20%)
+            nftURI = 'RARE';
         } else {
             // COMMON (78%)
+            nftURI = 'COMMON';
         }
 
-        // TODO set these to IPFS link for the NFT based on rarity
-        string memory tURI = "ferry:";
-        string memory mURI = "ferry:";
+        bytes32 dataHash = sha256(abi.encodePacked(nftURI, randomNums[_account]));
 
-        bytes32 dataHash = sha256(abi.encodePacked("Unique SVG string here23", randomNums[_account]));
-
-        // TODO can try keccak if sha doesn't work
         IMedia.MediaData memory data = IMedia.MediaData({
-            tokenURI: tURI,
-            metadataURI: mURI,
+            tokenURI: nftURI,
+            metadataURI: nftURI,
             contentHash: dataHash,
             metadataHash: dataHash
         });
+
+        currentAccount = _account; // to store who owns this NFT being minted
 
         ZoraMedia.mint(data, bidShares);
     }
@@ -110,15 +112,12 @@ contract FerryNFTMinter is
         uint256 _tokenId,
         bytes calldata _data
     ) external override returns (bytes4) {
-        IFerry(ferry).updateNFTData(_tokenId);
 
-        console.log(_operator);
-        console.log(_from);
-        console.log(_tokenId);
-        // console.log(_data);
+        IFerry(ferry).updateNFTData(currentAccount, _tokenId);
 
+        currentAccount = address(0); // reset to zero address
 
-        return ERC721_RECEIVED_FINAL;
+        return ERC721_RECEIVED;
     }
 
     modifier onlyFerry() {
