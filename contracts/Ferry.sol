@@ -148,7 +148,7 @@ contract Ferry is IFerry, Ownable {
 
     // TODO should be onlyMinter (or onlyZora)
     function updateNFTData(uint256 _tokenID) external override {
-        console.log(msg.sender);
+        // console.log(msg.sender);
 
         latestZoraID = _tokenID;
     }

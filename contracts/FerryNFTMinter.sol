@@ -12,6 +12,8 @@ import "./interfaces/IFerryNFTMinter.sol";
 import "./interfaces/IFerry.sol";
 import "./utils/Decimal.sol";
 
+import "hardhat/console.sol";
+
 // Integrates with Chainlink's VRF to generate truly unique NFTs with random numbers
 // Integrates with Zora to mint the NFTs
 
@@ -52,7 +54,7 @@ contract FerryNFTMinter is
         bidShares = IMarket.BidShares({
             prevOwner: Decimal.D256(0),
             creator: Decimal.D256(0),
-            owner: Decimal.D256(100)
+            owner: Decimal.D256(100000000000000000000)
         });
     }
 
@@ -85,16 +87,18 @@ contract FerryNFTMinter is
             // COMMON (78%)
         }
 
-        // TODO finish this - just for testing
-        string memory tURI = "https://example.com/";
-        string memory mURI = "https://metadata.com/";
+        // TODO set these to IPFS link for the NFT based on rarity
+        string memory tURI = "ferry:";
+        string memory mURI = "ferry:";
+
+        bytes32 dataHash = sha256(abi.encodePacked("Unique SVG string here23", randomNums[_account]));
 
         // TODO can try keccak if sha doesn't work
         IMedia.MediaData memory data = IMedia.MediaData({
             tokenURI: tURI,
             metadataURI: mURI,
-            contentHash: sha256("Unique SVG string here"),
-            metadataHash: sha256("Unique SVG metadata here")
+            contentHash: dataHash,
+            metadataHash: dataHash
         });
 
         ZoraMedia.mint(data, bidShares);
@@ -107,6 +111,12 @@ contract FerryNFTMinter is
         bytes calldata _data
     ) external override returns (bytes4) {
         IFerry(ferry).updateNFTData(_tokenId);
+
+        console.log(_operator);
+        console.log(_from);
+        console.log(_tokenId);
+        // console.log(_data);
+
 
         return ERC721_RECEIVED_FINAL;
     }
