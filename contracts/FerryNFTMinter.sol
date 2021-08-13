@@ -3,6 +3,7 @@
 pragma solidity 0.8.6;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 import "./interfaces/IZoraMedia.sol";
@@ -18,8 +19,11 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable, IFerryNFTMinter {
     address public ferry;
     IMedia ZoraMedia;
 
+    bytes4 internal constant ERC721_RECEIVED_FINAL = 0x150b7a02;
+
     mapping(bytes32 => address) private nftRequests;
     mapping(address => uint256) private randomNums;
+
     IMarket.BidShares private bidShares;
 
     // Chainlink vars
@@ -88,6 +92,13 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable, IFerryNFTMinter {
         });
 
         ZoraMedia.mint(data, bidShares);
+    }
+
+    function onERC721Received(address _operator, address _from, uint256 _tokenId, bytes calldata _data) external returns(bytes4){
+
+        IFerry(ferry).updateNFTData(_tokenId);
+
+        return ERC721_RECEIVED_FINAL;
     }
 
     modifier onlyFerry() {

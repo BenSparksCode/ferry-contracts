@@ -33,9 +33,13 @@ contract Ferry is IFerry, Ownable {
     uint256 public nftThresholdPayment;
     uint256 public constant YEAR = 365 days;
 
+    // TODO delete
+    uint256 public latestZoraID;
+
     struct NftData {
         uint256 index;
         uint256 randomNum;
+        uint256 zoraID;
     }
 
     // address => membership expiry timestamp
@@ -138,6 +142,10 @@ contract Ferry is IFerry, Ownable {
         NFTMinter.mintNFT(_account);
         nftCount++;
         nftOwned[_account].index = nftCount;
+    }
+
+    function updateNFTData(uint256 _tokenID) external override onlyMinter {
+        latestZoraID = _tokenID;
     }
 
     modifier onlyMinter() {
