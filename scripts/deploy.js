@@ -78,25 +78,25 @@ async function main() {
   //      example: await deploy("Token", [], {}, { "SafeMath": "0x..."});
   //    - function calls: use this format: `token.contact.mint()`
 
-  const shipToken = await deploy("ShipToken", [
-    constants.DEPLOY.SHIP.name,
-    constants.DEPLOY.SHIP.symbol,
-    constants.DEPLOY.SHIP.totalSupply
-  ], {
-    gasLimit,
-    gasPrice
-  })
+  // const shipToken = await deploy("ShipToken", [
+  //   constants.DEPLOY.SHIP.name,
+  //   constants.DEPLOY.SHIP.symbol,
+  //   constants.DEPLOY.SHIP.totalSupply
+  // ], {
+  //   gasLimit,
+  //   gasPrice
+  // })
 
-  contracts.push(shipToken);          // includes details for verification
+  // contracts.push(shipToken);          // includes details for verification
 
-  const shipHarbor = await deploy("ShipHarbor", [
-    shipToken.address,
-  ], {
-    gasLimit,
-    gasPrice
-  })
+  // const shipHarbor = await deploy("ShipHarbor", [
+  //   shipToken.address,
+  // ], {
+  //   gasLimit,
+  //   gasPrice
+  // })
 
-  contracts.push(shipHarbor);          // includes details for verification
+  // contracts.push(shipHarbor);          // includes details for verification
 
   const ferry = await deploy("Ferry", [
     constants.DEPLOY.FERRY.annualFee,

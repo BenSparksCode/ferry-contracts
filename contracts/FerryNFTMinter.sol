@@ -15,7 +15,12 @@ import "./utils/Decimal.sol";
 // Integrates with Chainlink's VRF to generate truly unique NFTs with random numbers
 // Integrates with Zora to mint the NFTs
 
-contract FerryNFTMinter is VRFConsumerBase, Ownable, IFerryNFTMinter {
+contract FerryNFTMinter is
+    VRFConsumerBase,
+    Ownable,
+    IFerryNFTMinter,
+    IERC721Receiver
+{
     address public ferry;
     IMedia ZoraMedia;
 
@@ -94,8 +99,12 @@ contract FerryNFTMinter is VRFConsumerBase, Ownable, IFerryNFTMinter {
         ZoraMedia.mint(data, bidShares);
     }
 
-    function onERC721Received(address _operator, address _from, uint256 _tokenId, bytes calldata _data) external returns(bytes4){
-
+    function onERC721Received(
+        address _operator,
+        address _from,
+        uint256 _tokenId,
+        bytes calldata _data
+    ) external override returns (bytes4) {
         IFerry(ferry).updateNFTData(_tokenId);
 
         return ERC721_RECEIVED_FINAL;
