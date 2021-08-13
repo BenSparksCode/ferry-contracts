@@ -131,8 +131,8 @@ contract Ferry is IFerry, Ownable {
 
     function mintNFT(address _account) external {
         require(
-            nftRequested[_account] && nftOwned[_account].randomNum == 0,
-            "FERRY: CAN'T MINT NFT"
+            nftOwned[_account].randomNum != 0,
+            "FERRY: CANT MINT NFT"
         );
 
         NFTMinter.mintNFT(_account);
