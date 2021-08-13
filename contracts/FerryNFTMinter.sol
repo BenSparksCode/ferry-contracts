@@ -115,7 +115,7 @@ contract FerryNFTMinter is
 
         IFerry(ferry).updateNFTData(currentAccount, _tokenId);
 
-        
+        ZoraMedia.safeTransferFrom(address(this), currentAccount, _tokenId);
 
         currentAccount = address(0); // reset to zero address
 
