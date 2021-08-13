@@ -69,7 +69,8 @@ contract FerryNFTMinter is
     }
 
     // TODO Needs to be completed
-    function mintNFT(address _account) external override onlyFerry {
+    // TODO should be onlyFerry
+    function mintNFT(address _account) external override {
         // Call from Ferry once account has random num from Chainlink
         // retrieves random num for account from mapping
         uint256 rarityScore = (randomNums[_account] % 1000) + 1;

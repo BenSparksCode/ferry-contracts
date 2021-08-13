@@ -8,6 +8,8 @@ import "./interfaces/ILendingPool.sol";
 import "./interfaces/IFerryNFTMinter.sol";
 import "./interfaces/IFerry.sol";
 
+import "hardhat/console.sol";
+
 // CORE:
 // Owned by a Gnosis Safe wallet
 // Function to pay Filecoin for storage via Polygon bridge (DAI->wFIL needed?)
@@ -144,7 +146,10 @@ contract Ferry is IFerry, Ownable {
         nftOwned[_account].index = nftCount;
     }
 
-    function updateNFTData(uint256 _tokenID) external override onlyMinter {
+    // TODO should be onlyMinter (or onlyZora)
+    function updateNFTData(uint256 _tokenID) external override {
+        console.log(msg.sender);
+
         latestZoraID = _tokenID;
     }
 

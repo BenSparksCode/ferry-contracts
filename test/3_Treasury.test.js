@@ -53,11 +53,12 @@ describe.only("Treasury tests", function () {
 
         xShipContract = await ethers.getContractFactory("ShipHarbor")
         xShipInstance = await xShipContract.connect(owner).deploy(
-            ShipInstance.address,
-            ethers.constants.AddressZero // set the SuperToken stream address later
+            ShipInstance.address
         )
     })
-    it("Creating Token", async () => {
-        
+    it.only("Mint NFT", async () => {
+       let tx =  await FerryMinterInstance.connect(owner).mintNFT(ownerAddress)
+
+        console.log(tx);
     });
 });
