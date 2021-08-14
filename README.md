@@ -48,8 +48,7 @@ Smart contracts for Ferry.
 - [x] Polygon
 - [x] Aave
 - [x] Chainlink
-- [ ] Zora
-- [ ] Textile
+- [x] Zora
 
 ## Resources
 
