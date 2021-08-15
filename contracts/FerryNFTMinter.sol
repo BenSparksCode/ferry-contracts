@@ -85,16 +85,16 @@ contract FerryNFTMinter is
         // TODO add real content URIs from IPFS
         if (rarityScore == 1000) {
             // LEGENDARY (0.1%)
-            nftURI = 'LEGENDARY';
+            nftURI = LegendaryNFT;
         } else if (rarityScore > 980) {
             // EPIC (1.9%)
-            nftURI = 'EPIC';
+            nftURI = EpicNFT;
         } else if (rarityScore > 780) {
             // RARE (20%)
-            nftURI = 'RARE';
+            nftURI = RareNFT;
         } else {
             // COMMON (78%)
-            nftURI = 'COMMON';
+            nftURI = CommonNFT;
         }
 
         bytes32 dataHash = sha256(abi.encodePacked(nftURI, randomNums[_account]));
