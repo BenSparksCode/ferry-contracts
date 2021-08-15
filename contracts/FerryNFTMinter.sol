@@ -66,8 +66,6 @@ contract FerryNFTMinter is
     //        ZORA          //
     // ==================== //
 
-    // TODO minted NFTs act as transferrable key to Superfluid stream of gov tokens ???
-
     function createNFT(address _account) external override onlyFerry {
         // Request random num from Chainlink for account
         _getRandomNumber(_account);
