@@ -25,8 +25,8 @@ Smart contracts for Ferry.
 
 - [x] SHIP Token
 - [x] SHIP Staking
-- [ ] Ferry Core
-- [ ] Ferry NFT Minter
+- [x] Ferry Core
+- [x] Ferry NFT Minter
 
 ## Tech Integrated
 
