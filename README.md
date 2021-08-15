@@ -4,6 +4,9 @@ Smart contracts for Ferry - a decentralized file sharing app built in the HackFS
 
 Check out the [Ferry frontend app repo here](https://github.com/ryanwolhuter/ferry).
 
+![image](https://user-images.githubusercontent.com/52714090/129492677-a870c738-2285-4edc-a610-6f5d30361b86.png)
+
+
 ## Latest Smart Contracts deployed on `Mumbai`
 
 ```
