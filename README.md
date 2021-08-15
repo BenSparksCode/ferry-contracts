@@ -18,11 +18,8 @@ Smart contracts for Ferry.
 ## To Do List
 
 - [x] Deploy to Mumbai to test VRF
-- [ ] Note if textile bridge is a frontend thing only - tell Ryan and plan admin dashboard
-- [ ] Zora callback data for owner -> NFT must be stored in contract
+- [x] Zora callback data for owner -> NFT must be stored in contract
 - [x] Work out NFT generation and storage with Zora
-- [ ] Test all functions work on mainnet fork
-- [ ] Look into paying with MATIC and DAI
 
 ## Contracts
 
@@ -30,16 +27,6 @@ Smart contracts for Ferry.
 - [x] SHIP Staking
 - [ ] Ferry Core
 - [ ] Ferry NFT Minter
-
-## Tests
-
-- [ ] SHIP Token
-- [ ] Ferry Core
-- [ ] Ferry Aave Integration
-- [ ] Ferry NFT Minter
-- [ ] Ferry Chainlink Integration
-- [ ] Ferry Zora Integration
-- [ ] Filecoin-Polygon Bridge
 
 ## Tech Integrated
 
