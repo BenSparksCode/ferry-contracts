@@ -72,8 +72,6 @@ contract FerryNFTMinter is
         // Callback in 10 blocks will generate and mint NFT
     }
 
-    // TODO Needs to be completed
-    // TODO should be onlyFerry
     function mintNFT(address _account) external override onlyFerry {
         // Call from Ferry once account has random num from Chainlink
         // retrieves random num for account from mapping
