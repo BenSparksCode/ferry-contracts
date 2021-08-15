@@ -38,6 +38,10 @@ contract Ferry is IFerry, Ownable {
     mapping(address => NftData) private nftOwned;
     mapping(address => bool) private nftRequested;
 
+    event SubscriptionPaid(address indexed account, uint256 amount, uint256 expiry);
+    event NFTNumberGenerated(address indexed account, uint256 randomNumber);
+    event NFTMinted(address indexed account, uint256 index, uint256 tokenID, uint256 randomNumber);
+
     constructor(
         uint256 _annualFee,
         uint256 _maxMintedNFTs,
