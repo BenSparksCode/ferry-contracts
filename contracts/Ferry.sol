@@ -38,7 +38,11 @@ contract Ferry is IFerry, Ownable {
     mapping(address => NftData) private nftOwned;
     mapping(address => bool) private nftRequested;
 
-    event SubscriptionPaid(address indexed account, uint256 amount, uint256 expiry);
+    event SubscriptionPaid(
+        address indexed account,
+        uint256 amount,
+        uint256 expiry
+    );
     event NFTNumberGenerated(address indexed account, uint256 randomNumber);
     event NFTMinted(address indexed account, uint256 index, uint256 tokenID);
 
@@ -126,23 +130,27 @@ contract Ferry is IFerry, Ownable {
         onlyMinter
     {
         nftOwned[_account].randomNum = _randomNum;
-        
+
         emit NFTNumberGenerated(_account, _randomNum);
     }
 
     function mintNFT(address _account) external {
+        // must have random num but no NFT yet minted
         require(
-            nftOwned[_account].randomNum != 0,
+            nftOwned[_account].randomNum != 0 && nftOwned[_account].index == 0,
             "FERRY: CANT MINT NFT"
         );
-        // TODO add mint once only require
 
         nftCount++;
-        nftOwned[_account].index = nftCount; 
+        nftOwned[_account].index = nftCount;
         NFTMinter.mintNFT(_account);
     }
 
-    function updateNFTData(address _account, uint256 _tokenID) external override onlyMinter {
+    function updateNFTData(address _account, uint256 _tokenID)
+        external
+        override
+        onlyMinter
+    {
         nftOwned[_account].tokenID = _tokenID;
 
         emit NFTMinted(_account, nftCount, _tokenID);
@@ -233,8 +241,16 @@ contract Ferry is IFerry, Ownable {
     function getAccountNFT(address _account)
         public
         view
-        returns (uint256 randomNum, uint256 index, uint256 tokenID)
+        returns (
+            uint256 randomNum,
+            uint256 index,
+            uint256 tokenID
+        )
     {
-        return (nftOwned[_account].randomNum, nftOwned[_account].index, nftOwned[_account].tokenID);
+        return (
+            nftOwned[_account].randomNum,
+            nftOwned[_account].index,
+            nftOwned[_account].tokenID
+        );
     }
 }
