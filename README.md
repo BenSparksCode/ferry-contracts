@@ -1,8 +1,10 @@
 # ⛵ Ferry Contracts ⛵
 
-Smart contracts for Ferry.
+Smart contracts for Ferry - a decentralized file sharing app built in the HackFS 2021 hackathon.
 
-## Latest Mumbai Contracts
+Check out the [Ferry frontend app repo here](https://github.com/ryanwolhuter/ferry).
+
+## Latest Smart Contracts deployed on `Mumbai`
 
 ```
 ┌─────────┬──────────────────┬──────────────────────────────────────────────┐
@@ -15,11 +17,6 @@ Smart contracts for Ferry.
 └─────────┴──────────────────┴──────────────────────────────────────────────┘
 ```
 
-## To Do List
-
-- [x] Deploy to Mumbai to test VRF
-- [x] Zora callback data for owner -> NFT must be stored in contract
-- [x] Work out NFT generation and storage with Zora
 
 ## Contracts
 
