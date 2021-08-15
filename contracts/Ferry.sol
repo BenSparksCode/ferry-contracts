@@ -40,7 +40,7 @@ contract Ferry is IFerry, Ownable {
 
     event SubscriptionPaid(address indexed account, uint256 amount, uint256 expiry);
     event NFTNumberGenerated(address indexed account, uint256 randomNumber);
-    event NFTMinted(address indexed account, uint256 index, uint256 tokenID, uint256 randomNumber);
+    event NFTMinted(address indexed account, uint256 index, uint256 tokenID);
 
     constructor(
         uint256 _annualFee,
@@ -115,6 +115,8 @@ contract Ferry is IFerry, Ownable {
             nftRequested[_account] = true;
             NFTMinter.createNFT(_account);
         }
+
+        emit SubscriptionPaid(_account, _amount, memberships[_account]);
     }
 
     // Called from NFTMinter when Chainlink responds with random num
@@ -124,6 +126,8 @@ contract Ferry is IFerry, Ownable {
         onlyMinter
     {
         nftOwned[_account].randomNum = _randomNum;
+        
+        emit NFTNumberGenerated(_account, _randomNum);
     }
 
     function mintNFT(address _account) external {
@@ -131,14 +135,17 @@ contract Ferry is IFerry, Ownable {
             nftOwned[_account].randomNum != 0,
             "FERRY: CANT MINT NFT"
         );
+        // TODO add mint once only require
 
-        NFTMinter.mintNFT(_account);
         nftCount++;
-        nftOwned[_account].index = nftCount;
+        nftOwned[_account].index = nftCount; 
+        NFTMinter.mintNFT(_account);
     }
 
     function updateNFTData(address _account, uint256 _tokenID) external override onlyMinter {
         nftOwned[_account].tokenID = _tokenID;
+
+        emit NFTMinted(_account, nftCount, _tokenID);
     }
 
     modifier onlyMinter() {
