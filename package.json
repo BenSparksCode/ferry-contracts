@@ -8,7 +8,6 @@
     "compile": "hardhat compile",
     "deploy:mumbai": "hardhat clean && hardhat run --network mumbai scripts/deploy.js",
     "deploy:polygon": "hardhat clean && hardhat run --network polygon scripts/deploy.js",
-    "rewards:mumbai": "hardhat run --network mumbai scripts/rewards.js",
     "accounts": "hardhat accounts",
     "balance": "hardhat balance",
     "generate": "hardhat generate",
