@@ -4,6 +4,8 @@
 
 Smart contracts for Ferry - a decentralized file sharing app built in the HackFS 2021 hackathon.
 
+Try is [here!](https://ferryweb3.vercel.app/)
+
 ### Ferry Web App repo 👇
 
 Check out the [Ferry web app repo here](https://github.com/ryanwolhuter/ferry).
